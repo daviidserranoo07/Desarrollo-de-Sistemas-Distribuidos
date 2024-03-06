@@ -10,13 +10,13 @@
 static struct timeval TIMEOUT = { 25, 0 };
 
 readdir_res *
-readdir_1(nametype arg1,  CLIENT *clnt)
+readdir_1(nametype *argp, CLIENT *clnt)
 {
 	static readdir_res clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, READDIR,
-		(xdrproc_t) xdr_nametype, (caddr_t) &arg1,
+		(xdrproc_t) xdr_nametype, (caddr_t) argp,
 		(xdrproc_t) xdr_readdir_res, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);

@@ -16,12 +16,6 @@
 #define SIG_PF void(*)(int)
 #endif
 
-static readdir_res *
-_readdir_1 (nametype  *argp, struct svc_req *rqstp)
-{
-	return (readdir_1_svc(*argp, rqstp));
-}
-
 static void
 dirprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -40,7 +34,7 @@ dirprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 	case READDIR:
 		_xdr_argument = (xdrproc_t) xdr_nametype;
 		_xdr_result = (xdrproc_t) xdr_readdir_res;
-		local = (char *(*)(char *, struct svc_req *)) _readdir_1;
+		local = (char *(*)(char *, struct svc_req *)) readdir_1_svc;
 		break;
 
 	default:

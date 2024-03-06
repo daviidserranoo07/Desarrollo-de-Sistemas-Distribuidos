@@ -3,7 +3,6 @@
   typedef string nametype<MAX>;               /* entrada directorio */  
   typedef struct namenode *namelist;        /* enlace en el listado */
 
-  /*Construimos la estructura de una lista enlazada, next es un puntero a la siguiente entrada de la lista*/
   struct namenode{
     nametype name;        /* nombre de la entrada de directorio */
     namelist next ;                        /* siguiente entrada */
