@@ -1,0 +1,17 @@
+Ejercicio 1:
+ssh localhost
+
+Ejercicio 2:
+ssh -X localhost
+xeyes
+
+Ejercicios 3:
+scp repositorios.sh localhost:/home/david/Escritorio/Universidad
+
+Ejercicio 4:
+sftp localhost
+quit(para salir)
+
+Ejercicio 5:
+ssh-keygen -b 4096 -t rsa(Crear llave pública y privada)
+ssh-copy-id localhost(Copio mi clave pública al servidor que me conecto para así poder acceder con mi clave privada y que no me pida contraseña)
