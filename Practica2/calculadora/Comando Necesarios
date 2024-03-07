@@ -1,0 +1,6 @@
+-Usar dir.x: rpcgen -NCa dir.x
+-Makefile: Añadir :
+CFLAGS += -g -I/usr/include/tirpc
+LDLIBS += -lnsl -ltirpc
+
+-Compilar Makefile: make -f Makefile.dir
