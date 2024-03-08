@@ -17,37 +17,37 @@
 #endif
 
 static calc_res *
-_add_1 (double_vector  *argp, struct svc_req *rqstp)
+_add_1 (add_1_argument *argp, struct svc_req *rqstp)
 {
-	return (add_1_svc(*argp, rqstp));
+	return (add_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
 static calc_res *
-_substract_1 (double_vector  *argp, struct svc_req *rqstp)
+_substract_1 (substract_1_argument *argp, struct svc_req *rqstp)
 {
-	return (substract_1_svc(*argp, rqstp));
+	return (substract_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
 static calc_res *
-_multiply_1 (double_vector  *argp, struct svc_req *rqstp)
+_multiply_1 (multiply_1_argument *argp, struct svc_req *rqstp)
 {
-	return (multiply_1_svc(*argp, rqstp));
+	return (multiply_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
 static calc_res *
-_divide_1 (double_vector  *argp, struct svc_req *rqstp)
+_divide_1 (divide_1_argument *argp, struct svc_req *rqstp)
 {
-	return (divide_1_svc(*argp, rqstp));
+	return (divide_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
 static void
 calprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		double_vector add_1_arg;
-		double_vector substract_1_arg;
-		double_vector multiply_1_arg;
-		double_vector divide_1_arg;
+		add_1_argument add_1_arg;
+		substract_1_argument substract_1_arg;
+		multiply_1_argument multiply_1_arg;
+		divide_1_argument divide_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -59,25 +59,25 @@ calprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		return;
 
 	case ADD:
-		_xdr_argument = (xdrproc_t) xdr_double_vector;
+		_xdr_argument = (xdrproc_t) xdr_add_1_argument;
 		_xdr_result = (xdrproc_t) xdr_calc_res;
 		local = (char *(*)(char *, struct svc_req *)) _add_1;
 		break;
 
 	case SUBSTRACT:
-		_xdr_argument = (xdrproc_t) xdr_double_vector;
+		_xdr_argument = (xdrproc_t) xdr_substract_1_argument;
 		_xdr_result = (xdrproc_t) xdr_calc_res;
 		local = (char *(*)(char *, struct svc_req *)) _substract_1;
 		break;
 
 	case MULTIPLY:
-		_xdr_argument = (xdrproc_t) xdr_double_vector;
+		_xdr_argument = (xdrproc_t) xdr_multiply_1_argument;
 		_xdr_result = (xdrproc_t) xdr_calc_res;
 		local = (char *(*)(char *, struct svc_req *)) _multiply_1;
 		break;
 
 	case DIVIDE:
-		_xdr_argument = (xdrproc_t) xdr_double_vector;
+		_xdr_argument = (xdrproc_t) xdr_divide_1_argument;
 		_xdr_result = (xdrproc_t) xdr_calc_res;
 		local = (char *(*)(char *, struct svc_req *)) _divide_1;
 		break;

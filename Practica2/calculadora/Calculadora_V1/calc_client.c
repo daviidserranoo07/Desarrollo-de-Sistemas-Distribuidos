@@ -26,20 +26,12 @@ int menu(){
 	return opcion;
 }
 
-
 void
-calprog_1(char *host, double vector[], int tamanio,int opcion)
+calprog_1(char *host, double arg1, double arg2,int opcion)
 {
 	CLIENT *clnt;
 	calc_res  *result;
-	double_vector arg1;
-
-	arg1.size=tamanio;
-	printf("Tamaño: %d",tamanio);
-	for(int i=0;i<tamanio;i++){
-		arg1.values[i]=vector[i];
-	}
-
+	bool valor=true;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, CALPROG, CAL_VER, "udp");
@@ -51,28 +43,28 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 
 	switch (opcion){
 	case 1:
-		result = add_1(arg1, clnt);
+		result = add_1(arg1, arg2, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}
-		printf("\nEl resultado es %lf \n",result->calc_res_u.result);
+		printf("\nEl resultado es %0lf \n",result->calc_res_u.result);
 		break;
 	case 2:
-		result = substract_1(arg1, clnt);
+		result = substract_1(arg1, arg2, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}
 		printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		break;
 	case 3:
-		result = multiply_1(arg1, clnt);
+		result = multiply_1(arg1, arg2, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}
 		printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		break;
 	case 4:
-		result = divide_1(arg1, clnt);
+		result = divide_1(arg1, arg2, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result->errnum==-1){
@@ -91,12 +83,13 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 #endif	 /* DEBUG */
 }
 
+
 int
 main (int argc, char *argv[])
-{	
+{
 	char *host;
-	int opcion=0,cant=0;
-	double valor=0.0;
+	double num1=0, num2=0;
+	int opcion;
 
 	if (argc < 2) {
 		printf ("usage: %s server_host\n", argv[0]);
@@ -104,20 +97,14 @@ main (int argc, char *argv[])
 	}
 
 	host = argv[1];
-	double vector[100];
 	do{
 		opcion = menu();
 		if(opcion!=5){
-			do{
-				printf("Cuantos número quiere añadir a la operación: ");
-				scanf("%d",&cant);
-			}while(cant>100 || cant<0);
-			for(int i=0;i<cant;i++){
-				printf("Introduzca el siguiente número: ");
-				scanf("%lf",&valor);
-				vector[i]=valor;
-			}
-			calprog_1 (host,vector,cant,opcion);
+			printf("Introduzca el primer valor: ");
+			scanf("%lf",&num1);
+			printf("Introduzca el segundo valor: ");
+			scanf("%lf",&num2);
+			calprog_1 (host,num1,num2,opcion);
 		}
 	}while(opcion!=5);
 exit (0);

@@ -13,8 +13,16 @@
 extern "C" {
 #endif
 
+#define MAX 100
 
 typedef double EXTENDED_DOUBLE;
+
+
+struct double_vector {
+	int size;
+	double values[MAX];
+};
+typedef struct double_vector double_vector;
 
 struct calc_res {
 	int errnum;
@@ -24,46 +32,22 @@ struct calc_res {
 };
 typedef struct calc_res calc_res;
 
-struct add_1_argument {
-	double arg1;
-	double arg2;
-};
-typedef struct add_1_argument add_1_argument;
-
-struct substract_1_argument {
-	double arg1;
-	double arg2;
-};
-typedef struct substract_1_argument substract_1_argument;
-
-struct multiply_1_argument {
-	double arg1;
-	double arg2;
-};
-typedef struct multiply_1_argument multiply_1_argument;
-
-struct divide_1_argument {
-	double arg1;
-	double arg2;
-};
-typedef struct divide_1_argument divide_1_argument;
-
 #define CALPROG 0x20000157
 #define CAL_VER 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define ADD 1
-extern  calc_res * add_1(double , double , CLIENT *);
-extern  calc_res * add_1_svc(double , double , struct svc_req *);
+extern  calc_res * add_1(double_vector , CLIENT *);
+extern  calc_res * add_1_svc(double_vector , struct svc_req *);
 #define SUBSTRACT 2
-extern  calc_res * substract_1(double , double , CLIENT *);
-extern  calc_res * substract_1_svc(double , double , struct svc_req *);
+extern  calc_res * substract_1(double_vector , CLIENT *);
+extern  calc_res * substract_1_svc(double_vector , struct svc_req *);
 #define MULTIPLY 3
-extern  calc_res * multiply_1(double , double , CLIENT *);
-extern  calc_res * multiply_1_svc(double , double , struct svc_req *);
+extern  calc_res * multiply_1(double_vector , CLIENT *);
+extern  calc_res * multiply_1_svc(double_vector , struct svc_req *);
 #define DIVIDE 4
-extern  calc_res * divide_1(double , double , CLIENT *);
-extern  calc_res * divide_1_svc(double , double , struct svc_req *);
+extern  calc_res * divide_1(double_vector , CLIENT *);
+extern  calc_res * divide_1_svc(double_vector , struct svc_req *);
 extern int calprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -86,19 +70,15 @@ extern int calprog_1_freeresult ();
 
 #if defined(__STDC__) || defined(__cplusplus)
 extern  bool_t xdr_EXTENDED_DOUBLE (XDR *, EXTENDED_DOUBLE*);
+extern  bool_t xdr_double_vector (XDR *, double_vector*);
+extern  bool_t xdr_double_vector (XDR *, double_vector*);
 extern  bool_t xdr_calc_res (XDR *, calc_res*);
-extern  bool_t xdr_add_1_argument (XDR *, add_1_argument*);
-extern  bool_t xdr_substract_1_argument (XDR *, substract_1_argument*);
-extern  bool_t xdr_multiply_1_argument (XDR *, multiply_1_argument*);
-extern  bool_t xdr_divide_1_argument (XDR *, divide_1_argument*);
 
 #else /* K&R C */
 extern bool_t xdr_EXTENDED_DOUBLE ();
+extern bool_t xdr_double_vector ();
+extern bool_t xdr_double_vector ();
 extern bool_t xdr_calc_res ();
-extern bool_t xdr_add_1_argument ();
-extern bool_t xdr_substract_1_argument ();
-extern bool_t xdr_multiply_1_argument ();
-extern bool_t xdr_divide_1_argument ();
 
 #endif /* K&R C */
 

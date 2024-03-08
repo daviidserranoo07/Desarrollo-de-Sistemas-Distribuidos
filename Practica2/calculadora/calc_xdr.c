@@ -16,6 +16,20 @@ xdr_EXTENDED_DOUBLE (XDR *xdrs, EXTENDED_DOUBLE *objp)
 }
 
 bool_t
+xdr_double_vector (XDR *xdrs, double_vector *objp)
+{
+	register int32_t *buf;
+
+	int i;
+	 if (!xdr_int (xdrs, &objp->size))
+		 return FALSE;
+	 if (!xdr_vector (xdrs, (char *)objp->values, MAX,
+		sizeof (double), (xdrproc_t) xdr_double))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_calc_res (XDR *xdrs, calc_res *objp)
 {
 	register int32_t *buf;
@@ -30,45 +44,5 @@ xdr_calc_res (XDR *xdrs, calc_res *objp)
 	default:
 		break;
 	}
-	return TRUE;
-}
-
-bool_t
-xdr_add_1_argument (XDR *xdrs, add_1_argument *objp)
-{
-	 if (!xdr_double (xdrs, &objp->arg1))
-		 return FALSE;
-	 if (!xdr_double (xdrs, &objp->arg2))
-		 return FALSE;
-	return TRUE;
-}
-
-bool_t
-xdr_substract_1_argument (XDR *xdrs, substract_1_argument *objp)
-{
-	 if (!xdr_double (xdrs, &objp->arg1))
-		 return FALSE;
-	 if (!xdr_double (xdrs, &objp->arg2))
-		 return FALSE;
-	return TRUE;
-}
-
-bool_t
-xdr_multiply_1_argument (XDR *xdrs, multiply_1_argument *objp)
-{
-	 if (!xdr_double (xdrs, &objp->arg1))
-		 return FALSE;
-	 if (!xdr_double (xdrs, &objp->arg2))
-		 return FALSE;
-	return TRUE;
-}
-
-bool_t
-xdr_divide_1_argument (XDR *xdrs, divide_1_argument *objp)
-{
-	 if (!xdr_double (xdrs, &objp->arg1))
-		 return FALSE;
-	 if (!xdr_double (xdrs, &objp->arg2))
-		 return FALSE;
 	return TRUE;
 }

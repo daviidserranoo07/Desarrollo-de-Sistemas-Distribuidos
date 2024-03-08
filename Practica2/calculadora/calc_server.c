@@ -5,62 +5,68 @@
  */
 
 #include "calc.h"
-#include <errno.h>
 
 calc_res *
-add_1_svc(double arg1, double arg2,  struct svc_req *rqstp)
+add_1_svc(double_vector arg1,  struct svc_req *rqstp)
 {
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
 
-	result.calc_res_u.result = arg1 + arg2;
+	result.calc_res_u.result=arg1.values[0];
 
-	result.errnum=0;
+	for(int i=1;i<arg1.size;i++){
+		result.calc_res_u.result+=arg1.values[i];
+	}
 	return &result;
 }
 
 calc_res *
-substract_1_svc(double arg1, double arg2,  struct svc_req *rqstp)
+substract_1_svc(double_vector arg1,  struct svc_req *rqstp)
 {
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
 
-	result.calc_res_u.result = arg1 - arg2;
+	result.calc_res_u.result=arg1.values[0];
 
-	result.errnum=0;
+	for(int i=1;i<arg1.size;i++){
+		result.calc_res_u.result-=arg1.values[i];
+	}
 	return &result;
 }
 
 calc_res *
-multiply_1_svc(double arg1, double arg2,  struct svc_req *rqstp)
+multiply_1_svc(double_vector arg1,  struct svc_req *rqstp)
 {
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
 
-	result.calc_res_u.result = arg1 * arg2;
+	result.calc_res_u.result=arg1.values[0];
 
-	result.errnum=0;
-	return &result;
-}
-
-calc_res *
-divide_1_svc(double arg1, double arg2,  struct svc_req *rqstp)
-{
-	static calc_res  result;
-
-	xdr_free(xdr_calc_res, &result);
-
-	if(arg2==0.0){
-		result.errnum=errno;
-		return (&result);
-	}else{
-		result.errnum=0;
-		result.calc_res_u.result = arg1 / arg2;
+	for(int i=1;i<arg1.size;i++){
+		result.calc_res_u.result*=arg1.values[i];
 	}
 
+	return &result;
+}
 
+calc_res *
+divide_1_svc(double_vector arg1,  struct svc_req *rqstp)
+{
+	static calc_res  result;
+
+	xdr_free(xdr_calc_res, &result);
+
+	result.calc_res_u.result=arg1.values[0];
+
+	for(int i=1;i<arg1.size;i++){
+		if(arg1.values[i]==0.0){
+			result.errnum=-1;
+			return &result;
+		}
+		result.calc_res_u.result/=arg1.values[i];
+	}
 	return &result;
 }

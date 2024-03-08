@@ -10,13 +10,15 @@
 static struct timeval TIMEOUT = { 25, 0 };
 
 calc_res *
-add_1(double_vector arg1,  CLIENT *clnt)
+add_1(double arg1, double arg2,  CLIENT *clnt)
 {
+	add_1_argument arg;
 	static calc_res clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, ADD,
-		(xdrproc_t) xdr_double_vector, (caddr_t) &arg1,
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, ADD, (xdrproc_t) xdr_add_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_calc_res, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -25,13 +27,15 @@ add_1(double_vector arg1,  CLIENT *clnt)
 }
 
 calc_res *
-substract_1(double_vector arg1,  CLIENT *clnt)
+substract_1(double arg1, double arg2,  CLIENT *clnt)
 {
+	substract_1_argument arg;
 	static calc_res clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, SUBSTRACT,
-		(xdrproc_t) xdr_double_vector, (caddr_t) &arg1,
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, SUBSTRACT, (xdrproc_t) xdr_substract_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_calc_res, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -40,13 +44,15 @@ substract_1(double_vector arg1,  CLIENT *clnt)
 }
 
 calc_res *
-multiply_1(double_vector arg1,  CLIENT *clnt)
+multiply_1(double arg1, double arg2,  CLIENT *clnt)
 {
+	multiply_1_argument arg;
 	static calc_res clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, MULTIPLY,
-		(xdrproc_t) xdr_double_vector, (caddr_t) &arg1,
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, MULTIPLY, (xdrproc_t) xdr_multiply_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_calc_res, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -55,13 +61,15 @@ multiply_1(double_vector arg1,  CLIENT *clnt)
 }
 
 calc_res *
-divide_1(double_vector arg1,  CLIENT *clnt)
+divide_1(double arg1, double arg2,  CLIENT *clnt)
 {
+	divide_1_argument arg;
 	static calc_res clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, DIVIDE,
-		(xdrproc_t) xdr_double_vector, (caddr_t) &arg1,
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, DIVIDE, (xdrproc_t) xdr_divide_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_calc_res, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
