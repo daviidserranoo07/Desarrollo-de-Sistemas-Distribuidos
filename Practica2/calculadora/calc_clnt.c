@@ -68,3 +68,71 @@ divide_1(double_vector arg1,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+calc_vec *
+add_vector_1(double_vector arg1, double_vector arg2,  CLIENT *clnt)
+{
+	add_vector_1_argument arg;
+	static calc_vec clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, ADD_VECTOR, (xdrproc_t) xdr_add_vector_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_calc_vec, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+calc_vec *
+substract_vector_1(double_vector arg1, double_vector arg2,  CLIENT *clnt)
+{
+	substract_vector_1_argument arg;
+	static calc_vec clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, SUBSTRACT_VECTOR, (xdrproc_t) xdr_substract_vector_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_calc_vec, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+calc_vec *
+multiply_vector_1(double_vector arg1, double_vector arg2,  CLIENT *clnt)
+{
+	multiply_vector_1_argument arg;
+	static calc_vec clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, MULTIPLY_VECTOR, (xdrproc_t) xdr_multiply_vector_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_calc_vec, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+calc_vec *
+divide_vector_1(double_vector arg1, double_vector arg2,  CLIENT *clnt)
+{
+	divide_vector_1_argument arg;
+	static calc_vec clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, DIVIDE_VECTOR, (xdrproc_t) xdr_divide_vector_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_calc_vec, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}

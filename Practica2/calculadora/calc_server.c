@@ -70,3 +70,68 @@ divide_1_svc(double_vector arg1,  struct svc_req *rqstp)
 	}
 	return &result;
 }
+
+calc_vec *
+add_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *rqstp)
+{
+	static calc_vec  result;
+
+	xdr_free(xdr_calc_res, &result);
+
+	result.calc_vec_u.result.values[0]=arg1.values[0]+arg2.values[0];
+
+	for(int i=1;i<arg1.size;i++){
+		result.calc_vec_u.result.values[i]=arg1.values[i]+arg2.values[i];
+	}
+
+	return &result;
+}
+
+calc_vec *
+substract_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *rqstp)
+{
+	static calc_vec  result;
+
+	xdr_free(xdr_calc_res, &result);
+
+	result.calc_vec_u.result.values[0]=arg1.values[0]-arg2.values[0];
+
+	for(int i=1;i<arg1.size;i++){
+		result.calc_vec_u.result.values[i]=arg1.values[i]-arg2.values[i];
+	}
+
+	return &result;
+}
+
+calc_vec *
+multiply_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *rqstp)
+{
+	static calc_vec  result;
+
+	xdr_free(xdr_calc_res, &result);
+
+	result.calc_vec_u.result.values[0]=arg1.values[0]*arg2.values[0];
+
+	for(int i=1;i<arg1.size;i++){
+		result.calc_vec_u.result.values[i]=arg1.values[i]*arg2.values[i];
+	}
+
+	return &result;
+}
+
+calc_vec *
+divide_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *rqstp)
+{
+	static calc_vec  result;
+
+	xdr_free(xdr_calc_res, &result);
+
+	for(int i=0;i<arg1.size;i++){
+		if(arg2.values[i]==0.0){
+			result.errnum=-1;
+			return &result;
+		}
+		result.calc_vec_u.result.values[i]=arg1.values[i]/arg2.values[i];
+	}
+	return &result;
+}

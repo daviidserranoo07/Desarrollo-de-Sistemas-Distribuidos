@@ -46,3 +46,61 @@ xdr_calc_res (XDR *xdrs, calc_res *objp)
 	}
 	return TRUE;
 }
+
+bool_t
+xdr_calc_vec (XDR *xdrs, calc_vec *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_int (xdrs, &objp->errnum))
+		 return FALSE;
+	switch (objp->errnum) {
+	case 0:
+		 if (!xdr_double_vector (xdrs, &objp->calc_vec_u.result))
+			 return FALSE;
+		break;
+	default:
+		break;
+	}
+	return TRUE;
+}
+
+bool_t
+xdr_add_vector_1_argument (XDR *xdrs, add_vector_1_argument *objp)
+{
+	 if (!xdr_double_vector (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_double_vector (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_substract_vector_1_argument (XDR *xdrs, substract_vector_1_argument *objp)
+{
+	 if (!xdr_double_vector (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_double_vector (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_multiply_vector_1_argument (XDR *xdrs, multiply_vector_1_argument *objp)
+{
+	 if (!xdr_double_vector (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_double_vector (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_divide_vector_1_argument (XDR *xdrs, divide_vector_1_argument *objp)
+{
+	 if (!xdr_double_vector (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_double_vector (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}

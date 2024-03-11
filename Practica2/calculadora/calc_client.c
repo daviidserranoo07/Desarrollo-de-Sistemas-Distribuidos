@@ -19,11 +19,22 @@ int menu(){
 				"\n 2.Introduzca 2 para realizar una resta."
 				"\n 3.Introduzca 3 para realizar una multiplicación."
 				"\n 4.Introduzca 4 para realizar una división."
-				"\n 5.Salir\n");
+				"\n 5.Introduzca 5 para sumar componentes de 2 vectores"
+				"\n 6.Introduzca 6 para restar componentes de 2 vectores"
+				"\n 7.Introduzca 7 para multiplicar componentes de 2 vectores"
+				"\n 8.Introduzca 8 para dividir componentes de 2 vectores"
+				"\n 9.Introduzca 9 para salir\n");
 		scanf("%d",&opcion);
-	}while(opcion>5 || opcion<1);
+	}while(opcion>9 || opcion<1);
 	
 	return opcion;
+}
+
+void imprimirVectorResultado(double resultado[],int tamanio){
+	for(int i=0;i<tamanio;i++){
+		printf("\nImprimimos resultado\n");
+		printf("El valor del vector resultado en la posicion %d es: %lf",i,resultado[i]);
+	}
 }
 
 
@@ -35,7 +46,6 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 	double_vector arg1;
 
 	arg1.size=tamanio;
-	printf("Tamaño: %d",tamanio);
 	for(int i=0;i<tamanio;i++){
 		arg1.values[i]=vector[i];
 	}
@@ -81,8 +91,6 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 			printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		}
 		break;
-	case 5:
-		exit(0);
 	default:
 		break;
 	}
@@ -91,11 +99,86 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 #endif	 /* DEBUG */
 }
 
+
+
+void
+calvec_1(char *host,double vector1[],double vector2[], int tamanio,int opcion)
+{
+	CLIENT *clnt;
+	calc_vec  *result;
+	double_vector vector_arg1;
+	double_vector vector_arg2;
+
+	//Copiamos los datos de los vectores pasados como parámetros a la estructura que mandaremos al servidor
+	vector_arg1.size=tamanio;
+	for(int i=0;i<tamanio;i++){
+		vector_arg1.values[i]=vector1[i];
+	}
+
+	vector_arg2.size=tamanio;
+	for(int i=0;i<tamanio;i++){
+		vector_arg2.values[i]=vector2[i];
+	}
+
+#ifndef	DEBUG
+	clnt = clnt_create (host, CALVEC, CAL_VEC, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror (host);
+		exit (1);
+	}
+#endif	/* DEBUG */
+
+	switch (opcion)
+	{
+	case 5:
+		result = add_vector_1(vector_arg1, vector_arg2, clnt);
+		if (result == (calc_vec *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
+		break;
+	case 6:
+		result = substract_vector_1(vector_arg1, vector_arg2, clnt);
+		if (result == (calc_vec *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
+		break;
+	case 7:
+		result = multiply_vector_1(vector_arg1, vector_arg2, clnt);
+		if (result == (calc_vec *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
+		break;
+	case 8:
+		result = divide_vector_1(vector_arg1, vector_arg2, clnt);
+		if (result == (calc_vec *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}else if(result->errnum==-1){
+			printf("\nNo se puede divdir por 0\n");
+		}else{
+			imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
+		}
+		break;
+	case 9:
+		exit(0);
+		break;
+	default:
+		break;
+	}
+
+#ifndef	DEBUG
+	clnt_destroy (clnt);
+#endif	 /* DEBUG */
+}
+
+
 int
 main (int argc, char *argv[])
-{	
+{
 	char *host;
-	int opcion=0,cant=0;
+	int opcion=0,cant=0,tipo=0;
 	double valor=0.0;
 
 	if (argc < 2) {
@@ -104,21 +187,46 @@ main (int argc, char *argv[])
 	}
 
 	host = argv[1];
-	double vector[100];
+	double vector[100],vector1[100],vector2[100];
 	do{
 		opcion = menu();
-		if(opcion!=5){
-			do{
-				printf("Cuantos número quiere añadir a la operación: ");
-				scanf("%d",&cant);
-			}while(cant>100 || cant<0);
-			for(int i=0;i<cant;i++){
-				printf("Introduzca el siguiente número: ");
-				scanf("%lf",&valor);
-				vector[i]=valor;
+		if(opcion!=9){
+			if(opcion<5)tipo=1;
+			else tipo=2;
+
+			switch (tipo)
+			{
+			case 1:
+				do{
+					printf("Cuantos número quiere añadir a la operación: ");
+					scanf("%d",&cant);
+				}while(cant>100 || cant<0);
+				for(int i=0;i<cant;i++){
+					printf("Introduzca el siguiente número: ");
+					scanf("%lf",&valor);
+					vector[i]=valor;
+				}
+				calprog_1 (host,vector,cant,opcion);
+				break;
+			case 2:
+				do{
+					printf("De que tamaño quiere que sean los vectores(ambos tendrán mismo tamaño): ");
+					scanf("%d",&cant);
+				}while(cant>100 || cant<0);
+				for(int i=0;i<cant;i++){
+					printf("Introduzca el valor %d del vector 1: ",i);
+					scanf("%lf",&valor);
+					vector1[i]=valor;
+					printf("Introduzca el valor %d del vector 2: ",i);
+					scanf("%lf",&valor);
+				}
+				calvec_1(host,vector1,vector2,cant,opcion);
+				break;
+			
+			default:
+				break;
 			}
-			calprog_1 (host,vector,cant,opcion);
 		}
-	}while(opcion!=5);
+	}while(opcion!=9);
 exit (0);
 }
