@@ -1,17 +1,10 @@
 const MAX = 100;
-const MAX_MATRIX = 25;
 typedef double EXTENDED_DOUBLE;
 typedef struct double_vector double_vector<MAX>;
 
 struct double_vector{
     int size;
     double values[MAX];
-};
-
-struct double_matrix{
-    int filas;
-    int columnas;
-    double values[MAX_MATRIX];
 };
 
 union calc_res switch (int errnum) {
@@ -24,13 +17,6 @@ union calc_res switch (int errnum) {
 union calc_vec switch (int errnum) {
     case 0:
         double_vector result;
-    default:
-        void;
-};
-
-union calc_mat switch (int errnum){
-    case 0:
-        double_matrix result;
     default:
         void;
 };
@@ -52,13 +38,4 @@ program CALVEC{
         calc_vec DIVIDE_VECTOR(double_vector,double_vector) = 8;
     } = 1;
 } = 0x20000158;
-
-program CALMAT{
-    version CAL_MAT{
-        calc_mat ADD_MATRIX(double_matrix,double_matrix) = 9;
-        calc_mat SUBSTRACT_MATRIX(double_matrix,double_matrix) = 10;
-        calc_mat MULTIPLY_MATRIX(double_matrix,double_matrix) = 11;
-        calc_res DETERMINANT_MATRIX(double_matrix) = 12;
-    } = 1;
-} = 0x20000159;
  

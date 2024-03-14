@@ -11,29 +11,55 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define MAX_SIZE 100
+#define MAX_SIZE_MATRIX 25
+#define MAX_ROWS 5
+#define MAX_COLUMNS 5
+#define MAX_ROWS_D 3
+#define MAX_COLUMNS_D 3
+#define MIN 0
+
 int menu(){
 	int opcion;
 	do{
-		printf("\n\nBienvenido a la calculadora porfavor introduzca que operación desea realizar:"
+		printf("\n\nBienvenido a la calculadora introduzca la operación que desea realizar:"
+				"\n ------------OPERACIONES BÁSICAS(MÁXIMO 100 NÚMEROS)------------"
 		   		"\n 1.Introduzca 1 para realizar una suma."
 				"\n 2.Introduzca 2 para realizar una resta."
 				"\n 3.Introduzca 3 para realizar una multiplicación."
 				"\n 4.Introduzca 4 para realizar una división."
+				"\n\n ------------OPERACIONES CON VECTORES(TAMAÑO MÁXIMO 100)------------"
 				"\n 5.Introduzca 5 para sumar componentes de 2 vectores"
 				"\n 6.Introduzca 6 para restar componentes de 2 vectores"
 				"\n 7.Introduzca 7 para multiplicar componentes de 2 vectores"
 				"\n 8.Introduzca 8 para dividir componentes de 2 vectores"
-				"\n 9.Introduzca 9 para salir\n");
+				"\n\n ------------OPERACIONES CON MATRICES CUADRADAS(MÁXIMO 5X5)------------"
+				"\n 9.Introduzca 9 para sumar 2 matrices cuadradas"
+				"\n 10.Introduzca 10 para restar 2 matrices cuadrada"
+				"\n 11.Introduzca 11 para multiplicar 2 matrices cuadradas"
+				"\n 12.Introduzca 12 para calcular determinante de una matriz(MÁXIMO MATRICES DE 3x3)"
+				"\n 13.Introduzca 13 para salir\n");
 		scanf("%d",&opcion);
-	}while(opcion>9 || opcion<1);
+	}while(opcion>13 || opcion<1);
 	
 	return opcion;
 }
 
 void imprimirVectorResultado(double resultado[],int tamanio){
+	printf("\nImprimimos Vector resultado:\n [");
 	for(int i=0;i<tamanio;i++){
-		printf("\nImprimimos resultado\n");
-		printf("El valor del vector resultado en la posicion %d es: %lf",i,resultado[i]);
+		printf("%lf ",resultado[i]);
+	}
+	printf("]\n");
+}
+
+void imprimirMatrizResultado(double resultado[], int filas, int columnas){
+	printf("\nImprimimos Matriz resultado:\n");
+	for(int i=0;i<filas;i++){
+		for(int j=0;j<columnas;j++){
+			printf("[%lf] ",resultado[i*columnas+j]);
+		}
+		printf("\n");
 	}
 }
 
@@ -86,7 +112,7 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result->errnum==-1){
-			printf("\nNo se puede divdir por 0\n");
+			printf("\nNo se puede dividir por 0\n");
 		}else{
 			printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		}
@@ -98,8 +124,6 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
 }
-
-
 
 void
 calvec_1(char *host,double vector1[],double vector2[], int tamanio,int opcion)
@@ -134,35 +158,41 @@ calvec_1(char *host,double vector1[],double vector2[], int tamanio,int opcion)
 		result = add_vector_1(vector_arg1, vector_arg2, clnt);
 		if (result == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
+		}else if(result->errnum==-1){
+			printf("\nSe produjo un error al realizar la operación\n");
+		}else{
+			imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
 		}
-		imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
 		break;
 	case 6:
 		result = substract_vector_1(vector_arg1, vector_arg2, clnt);
 		if (result == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
+		}else if(result->errnum==-1){
+			printf("\nSe produjo un error al realizar la operación\n");
+		}else{
+			imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
 		}
-		imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
 		break;
 	case 7:
 		result = multiply_vector_1(vector_arg1, vector_arg2, clnt);
 		if (result == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
-		}
-		imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
+		}else if(result->errnum==-1){
+			printf("\nSe produjo un error al realizar la operación\n");
+		}else{
+			imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
+		}		
 		break;
 	case 8:
 		result = divide_vector_1(vector_arg1, vector_arg2, clnt);
 		if (result == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result->errnum==-1){
-			printf("\nNo se puede divdir por 0\n");
+			printf("\nIntento dividir por 0 o se produjo u error al realizar la operación\n");
 		}else{
 			imprimirVectorResultado(result->calc_vec_u.result.values,result->calc_vec_u.result.size);
 		}
-		break;
-	case 9:
-		exit(0);
 		break;
 	default:
 		break;
@@ -173,12 +203,97 @@ calvec_1(char *host,double vector1[],double vector2[], int tamanio,int opcion)
 #endif	 /* DEBUG */
 }
 
+void
+calmat_1(char *host,double matrix1[], double matrix2[],int filas,int columnas,int opcion)
+{
+	CLIENT *clnt;
+	calc_mat  *result;
+	calc_res  *determinant;
+	double_matrix matrix_1_arg1;
+	double_matrix matrix_1_arg2;
+
+	matrix_1_arg1.filas=filas;
+	matrix_1_arg1.columnas=columnas;
+
+	matrix_1_arg2.filas=filas;
+	matrix_1_arg2.columnas=columnas;
+
+	//Rellenamos Matriz 1 y 2
+	for(int i=0;i<filas;i++){
+		for(int j=0;j<columnas;j++){
+		matrix_1_arg1.values[i*columnas+j]=matrix1[i*columnas+j];
+		matrix_1_arg2.values[i*columnas+j]=matrix2[i*columnas+j];
+		}
+	}
+
+#ifndef	DEBUG
+	clnt = clnt_create (host, CALMAT, CAL_MAT, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror (host);
+		exit (1);
+	}
+#endif	/* DEBUG */
+
+	switch (opcion)
+	{
+	case 9:
+		result = add_matrix_1(matrix_1_arg1, matrix_1_arg2, clnt);
+		if (result == (calc_mat *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}else if(result->errnum==-1){
+			printf("\nSe produjo un error al realizar la operación\n");
+		}else{
+			imprimirMatrizResultado(result->calc_mat_u.result.values,result->calc_mat_u.result.filas,result->calc_mat_u.result.columnas);
+		}
+		break;
+	case 10:
+		result = substract_matrix_1(matrix_1_arg1, matrix_1_arg2, clnt);
+		if (result == (calc_mat *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}else if(result->errnum==-1){
+			printf("\nSe produjo un error al realizar la operación\n");
+		}else{
+			imprimirMatrizResultado(result->calc_mat_u.result.values,result->calc_mat_u.result.filas,result->calc_mat_u.result.columnas);
+		}
+		break;
+	case 11:
+		result = multiply_matrix_1(matrix_1_arg1, matrix_1_arg2, clnt);
+		if (result == (calc_mat *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}else if(result->errnum==-1){
+			printf("\nSe produjo un error al realizar la operación\n");
+		}else{
+			imprimirMatrizResultado(result->calc_mat_u.result.values,result->calc_mat_u.result.filas,result->calc_mat_u.result.columnas);
+		}
+		break;
+	case 12:
+		determinant = determinant_matrix_1(matrix_1_arg1, clnt);
+		if (determinant == (calc_res *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+		if(determinant->errnum==-1){
+			printf("Error introdujo una matriz mayor a 3X3 o no era una matriz cuadrada");
+		}else{
+			printf("\nEl determinante de la Matriz es %lf \n",determinant->calc_res_u.result);
+		}
+		break;
+	case 13:
+		exit(0);
+		break;
+	default:
+		break;
+	}
+#ifndef	DEBUG
+	clnt_destroy (clnt);
+#endif	 /* DEBUG */
+}
+
 
 int
 main (int argc, char *argv[])
 {
 	char *host;
-	int opcion=0,cant=0,tipo=0;
+	int opcion=0,cant=0,tipo=0,filas=0,columnas=0,continuar=1;
 	double valor=0.0;
 
 	if (argc < 2) {
@@ -187,12 +302,14 @@ main (int argc, char *argv[])
 	}
 
 	host = argv[1];
-	double vector[100],vector1[100],vector2[100];
+	double vector1[MAX_SIZE],vector2[MAX_SIZE], matriz1[MAX_SIZE_MATRIX], matriz2[MAX_SIZE_MATRIX];
 	do{
 		opcion = menu();
-		if(opcion!=9){
+		if(opcion!=13){
 			if(opcion<5)tipo=1;
-			else tipo=2;
+			else if(opcion<9) tipo=2;
+			else if(opcion<12) tipo=3;
+			else tipo=4;
 
 			switch (tipo)
 			{
@@ -200,33 +317,85 @@ main (int argc, char *argv[])
 				do{
 					printf("Cuantos número quiere añadir a la operación: ");
 					scanf("%d",&cant);
-				}while(cant>100 || cant<0);
+				}while(cant>MAX_SIZE || cant<MIN);
 				for(int i=0;i<cant;i++){
 					printf("Introduzca el siguiente número: ");
 					scanf("%lf",&valor);
-					vector[i]=valor;
+					vector1[i]=valor;
 				}
-				calprog_1 (host,vector,cant,opcion);
+				calprog_1 (host,vector1,cant,opcion);
 				break;
 			case 2:
 				do{
 					printf("De que tamaño quiere que sean los vectores(ambos tendrán mismo tamaño): ");
 					scanf("%d",&cant);
-				}while(cant>100 || cant<0);
+				}while(cant>MAX_SIZE || cant<MIN);
+
 				for(int i=0;i<cant;i++){
-					printf("Introduzca el valor %d del vector 1: ",i);
+					printf("\nVector1[%d]: ",i+1);
 					scanf("%lf",&valor);
 					vector1[i]=valor;
-					printf("Introduzca el valor %d del vector 2: ",i);
+					printf("\nVector2[%d]: ",i+1);
 					scanf("%lf",&valor);
+					vector2[i]=valor;
 				}
 				calvec_1(host,vector1,vector2,cant,opcion);
 				break;
-			
+			case 3:
+				do{
+					printf("Cuantas filas quiere que tengan las matrices(ambas tendrán las mismas): ");
+					scanf("%d",&filas);
+					printf("Cuantas columnas quiere que tengan las matrices(ambas tendrán las mismas): ");
+					scanf("%d",&columnas);
+				}while((filas>MAX_ROWS || filas<MIN) && (columnas>MAX_COLUMNS || columnas<MIN));
+
+				for(int i=0;i<filas;i++){
+					for(int j=0;j<columnas;j++){
+						printf("\nMatriz1[%d][%d]: ",i,j);
+						scanf("%lf",&valor);
+						matriz1[i*columnas+j]=valor;
+						printf("\nMatriz2[%d][%d]: ",i,j);
+						scanf("%lf",&valor);
+						matriz2[i*columnas+j]=valor;
+					}
+				}
+				calmat_1(host,matriz1,matriz2,filas,columnas,opcion);
+				break;
+			case 4:
+				do{
+					printf("Cuantas filas quiere que tenga la matriz: ");
+					scanf("%d",&filas);
+					printf("Cuantas columnas quiere que tenga la matriz: ");
+					scanf("%d",&columnas);
+				}while((filas>MAX_ROWS_D || filas<MIN) && (columnas>MAX_COLUMNS_D || columnas<MIN));
+				
+				for(int i=0;i<filas;i++){
+					for(int j=0;j<columnas;j++){
+						printf("\nMatriz[%d][%d]: ",i,j);
+						scanf("%lf",&valor);
+						matriz1[i*columnas+j]=valor;
+					}
+				}
+
+				printf("\nMatriz Introducida: \n");
+				for(int i=0;i<filas;i++){
+					for(int j=0;j<columnas;j++){
+						printf("[%lf] ",matriz1[i*columnas+j]);
+					}
+					printf("\n");
+				}
+				calmat_1(host,matriz1,matriz2,filas,columnas,12);
+				break;
 			default:
 				break;
 			}
+			printf("\nDesea realizar otra operación: "
+				   "\n1. Introduzca cualquier número en caso de que si: "
+				   "\n2. Introduzca 0 en caso de que no: \n");
+			scanf("%d",&continuar);
+			if(continuar==0) opcion=13;
 		}
-	}while(opcion!=9);
+	}while(opcion!=13);
 exit (0);
 }
+
