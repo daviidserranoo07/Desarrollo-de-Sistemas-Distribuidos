@@ -7,12 +7,13 @@
 #include "calc.h"
 
 #define MAX_SIZE 100
+#define MIN 0
 #define MAX_SIZE_MATRIX 25
 #define MAX_ROWS 5
 #define MAX_COLUMNS 5
 #define MAX_ROWS_D 3
 #define MAX_COLUMNS_D 3
-#define MIN 0
+
 
 /////////////////////OPERACIONES BÁSICAS/////////////////////
 

@@ -7,13 +7,12 @@
 #include "calc.h"
 
 #define MAX_SIZE 100
-#define MIN 0
 #define MAX_SIZE_MATRIX 25
 #define MAX_ROWS 5
 #define MAX_COLUMNS 5
 #define MAX_ROWS_D 3
 #define MAX_COLUMNS_D 3
-
+#define MIN 0
 
 /////////////////////OPERACIONES BÁSICAS/////////////////////
 
@@ -296,11 +295,8 @@ multiply_matrix_1_svc(double_matrix arg1, double_matrix arg2,  struct svc_req *r
 	}
 
 
-	if(arg1.filas>MAX_ROWS || arg1.columnas>MAX_COLUMNS || arg1.filas<MIN || arg1.columnas<MIN){
+	if(arg1.filas>MAX_ROWS || arg1.columnas>MAX_COLUMNS || arg1.filas<MIN || arg1.columnas<MIN || arg1.columnas!=arg2.filas){
 		result.errnum=-1;
-		return &result;
-	}else if(arg1.columnas!=arg2.filas){
-		result.errnum=-2;
 		return &result;
 	}
 

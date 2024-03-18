@@ -14,7 +14,8 @@
 int menu(){
 	int opcion;
 	do{
-		printf("\n\nBienvenido a la calculadora porfavor introduzca que operación desea realizar:"
+		printf("\n\nBienvenido a la calculadora introduzca la operación que desea realizar:"
+				"\n ------------OPERACIONES BÁSICAS(MÁXIMO 100 NÚMEROS)------------"
 		   		"\n 1.Introduzca 1 para realizar una suma."
 				"\n 2.Introduzca 2 para realizar una resta."
 				"\n 3.Introduzca 3 para realizar una multiplicación."
@@ -22,7 +23,6 @@ int menu(){
 				"\n 5.Salir\n");
 		scanf("%d",&opcion);
 	}while(opcion>5 || opcion<1);
-	
 	return opcion;
 }
 
@@ -35,7 +35,6 @@ calprog_1(char *host, double vector[], int tamanio,int opcion)
 	double_vector arg1;
 
 	arg1.size=tamanio;
-	printf("Tamaño: %d",tamanio);
 	for(int i=0;i<tamanio;i++){
 		arg1.values[i]=vector[i];
 	}
@@ -95,7 +94,7 @@ int
 main (int argc, char *argv[])
 {	
 	char *host;
-	int opcion=0,cant=0;
+	int opcion=0,cant=0,continuar=0;
 	double valor=0.0;
 
 	if (argc < 2) {
@@ -118,6 +117,11 @@ main (int argc, char *argv[])
 				vector[i]=valor;
 			}
 			calprog_1 (host,vector,cant,opcion);
+			printf("\nDesea realizar otra operación: "
+				   "\n1. Introduzca cualquier número en caso de que si: "
+				   "\n2. Introduzca 0 en caso de que no: \n");
+			scanf("%d",&continuar);
+			if(continuar==0) opcion=5;
 		}
 	}while(opcion!=5);
 exit (0);

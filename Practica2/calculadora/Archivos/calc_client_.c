@@ -104,38 +104,29 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		result = add_1(arg1, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
-		}else if(result->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
-		}else{
-			printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		}
+		printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		break;
 	case 2:
 		result = substract_1(arg1, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
-		}else if(result->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
-		}else{
-			printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		}
+		printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		break;
 	case 3:
 		result = multiply_1(arg1, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
-		}else if(result->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
-		}else{
-			printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		}
+		printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		break;
 	case 4:
 		result = divide_1(arg1, clnt);
 		if (result == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result->errnum==-1){
-			printf("\nError: No se puede dividir por 0\n");
+			printf("\nNo se puede dividir por 0\n");
 		}else{
 			printf("\nEl resultado es %lf \n",result->calc_res_u.result);
 		}
@@ -145,7 +136,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_v == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_v->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
+			printf("\nSe produjo un error al realizar la operación\n");
 		}else{
 			imprimirVectorResultado(result_v->calc_vec_u.result.values,result_v->calc_vec_u.result.size);
 		}
@@ -155,7 +146,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_v == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_v->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
+			printf("\nSe produjo un error al realizar la operación\n");
 		}else{
 			imprimirVectorResultado(result_v->calc_vec_u.result.values,result_v->calc_vec_u.result.size);
 		}
@@ -165,7 +156,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_v == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_v->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
+			printf("\nSe produjo un error al realizar la operación\n");
 		}else{
 			imprimirVectorResultado(result_v->calc_vec_u.result.values,result_v->calc_vec_u.result.size);
 		}		
@@ -175,7 +166,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_v == (calc_vec *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_v->errnum==-1){
-			printf("\nError: Intento dividir por 0 o se produjo un error al realizar la operación\n");
+			printf("\nIntento dividir por 0 o se produjo u error al realizar la operación\n");
 		}else{
 			imprimirVectorResultado(result_v->calc_vec_u.result.values,result_v->calc_vec_u.result.size);
 		}
@@ -185,7 +176,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_m == (calc_mat *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_m->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
+			printf("\nSe produjo un error al realizar la operación\n");
 		}else{
 			imprimirMatrizResultado(result_m->calc_mat_u.result.values,result_m->calc_mat_u.result.filas,result_m->calc_mat_u.result.columnas);
 		}
@@ -195,7 +186,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_m == (calc_mat *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_m->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
+			printf("\nSe produjo un error al realizar la operación\n");
 		}else{
 			imprimirMatrizResultado(result_m->calc_mat_u.result.values,result_m->calc_mat_u.result.filas,result_m->calc_mat_u.result.columnas);
 		}
@@ -205,9 +196,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		if (result_m == (calc_mat *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}else if(result_m->errnum==-1){
-			printf("\nError: Se produjo un error al realizar la operación\n");
-		}else if(result_m->errnum==-2){
-			printf("\nError: El número de columnas de la primera matriz no es igual al número de filas de la segundas\n");
+			printf("\nSe produjo un error al realizar la operación\n");
 		}else{
 			imprimirMatrizResultado(result_m->calc_mat_u.result.values,result_m->calc_mat_u.result.filas,result_m->calc_mat_u.result.columnas);
 		}
