@@ -216,8 +216,7 @@ calprog_1(char *host, double_vector vector1, double_vector vector2, double_matri
 		determinant = determinant_matrix_1(matrix_1_arg1, clnt);
 		if (determinant == (calc_res *) NULL) {
 			clnt_perror (clnt, "call failed");
-		}
-		if(determinant->errnum==-1){
+		}else if(determinant->errnum==-1){
 			printf("\nError introdujo una matriz mayor a 3X3 o no era una matriz cuadrada");
 		}else{
 			printf("\nEl determinante de la Matriz es %lf \n",determinant->calc_res_u.result);
@@ -377,7 +376,7 @@ char *host;
 					printf("\n");
 				}
 				matriz1.filas=filas;
-				matriz2.columnas=columnas;
+				matriz1.columnas=columnas;
 				calprog_1 (host,vector1,vector2,matriz1,matriz2,opcion);
 				break;
 			default:

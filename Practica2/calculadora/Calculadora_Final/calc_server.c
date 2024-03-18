@@ -23,6 +23,8 @@ add_1_svc(double_vector arg1,  struct svc_req *rqstp)
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
+
+	result.errnum=0;
 	
 	result.calc_res_u.result=0;
 
@@ -46,6 +48,8 @@ substract_1_svc(double_vector arg1,  struct svc_req *rqstp)
 
 	xdr_free(xdr_calc_res, &result);
 
+	result.errnum=0;
+
 	result.calc_res_u.result=0;
 
 	if(arg1.size>MAX_SIZE || arg1.size<MIN){
@@ -67,6 +71,8 @@ multiply_1_svc(double_vector arg1,  struct svc_req *rqstp)
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
+
+	result.errnum=0;
 
 	result.calc_res_u.result=0;
 
@@ -90,6 +96,8 @@ divide_1_svc(double_vector arg1,  struct svc_req *rqstp)
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
+
+	result.errnum=0;
 
 	result.calc_res_u.result=0;
 
@@ -120,6 +128,8 @@ add_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *rqstp)
 
 	xdr_free(xdr_calc_vec, &result);
 
+	result.errnum=0;
+
 	for(int i=0;i<arg1.size;i++){
 		result.calc_vec_u.result.values[i]=0;
 	}
@@ -144,6 +154,8 @@ substract_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *
 	static calc_vec  result;
 
 	xdr_free(xdr_calc_vec, &result);
+
+	result.errnum=0;
 
 	for(int i=0;i<arg1.size;i++){
 		result.calc_vec_u.result.values[i]=0;
@@ -170,6 +182,8 @@ multiply_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *r
 
 	xdr_free(xdr_calc_vec, &result);
 
+	result.errnum=0;
+
 	for(int i=0;i<arg1.size;i++){
 		result.calc_vec_u.result.values[i]=0;
 	}
@@ -194,6 +208,8 @@ divide_vector_1_svc(double_vector arg1, double_vector arg2,  struct svc_req *rqs
 	static calc_vec  result;
 
 	xdr_free(xdr_calc_vec, &result);
+
+	result.errnum=0;
 
 	for(int i=0;i<arg1.size;i++){
 		result.calc_vec_u.result.values[i]=0;
@@ -225,6 +241,8 @@ add_matrix_1_svc(double_matrix arg1, double_matrix arg2,  struct svc_req *rqstp)
 	static calc_mat  result;
 
 	xdr_free(xdr_calc_mat, &result);
+
+	result.errnum=0;
 
 	//Ponemos a 0 Matriz Resultado
 	for(int i=0;i<arg1.filas;i++){
@@ -258,6 +276,8 @@ substract_matrix_1_svc(double_matrix arg1, double_matrix arg2,  struct svc_req *
 
 	xdr_free(xdr_calc_mat, &result);
 
+	result.errnum=0;
+
 		//Ponemos a 0 Matriz Resultado
 	for(int i=0;i<arg1.filas;i++){
 		for(int j=0;j<arg1.columnas;j++){
@@ -287,6 +307,8 @@ multiply_matrix_1_svc(double_matrix arg1, double_matrix arg2,  struct svc_req *r
 	static calc_mat  result;
 
 	xdr_free(xdr_calc_mat, &result);
+
+	result.errnum=0;
 
 	//Ponemos a 0 Matriz Resultado
 	for(int i=0;i<arg1.filas;i++){
@@ -325,6 +347,8 @@ determinant_matrix_1_svc(double_matrix arg1,  struct svc_req *rqstp)
 	static calc_res  result;
 
 	xdr_free(xdr_calc_res, &result);
+
+	result.errnum=0;
 
 	if(arg1.filas>MAX_ROWS_D || arg1.columnas>MAX_COLUMNS_D || arg1.filas<MIN || arg1.columnas<MIN || arg1.filas!=arg1.columnas){
 		result.errnum=-1;
