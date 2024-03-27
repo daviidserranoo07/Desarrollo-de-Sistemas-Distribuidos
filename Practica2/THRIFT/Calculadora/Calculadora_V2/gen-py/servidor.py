@@ -40,7 +40,7 @@ class CalculadoraHandler:
     def ping(self):
         print("Me han hecho ping()")
     
-    def llamarAvanzado(self,operacion):
+    def llamarAvanzado(self,operacion,a,b):
         #Nos conectamos con el segundo servidor si es necesario
         transport = TSocket.TSocket("localhost", 9092)
         transport = TTransport.TBufferedTransport(transport)
@@ -50,13 +50,9 @@ class CalculadoraHandler:
         transport.open()
 
         if operacion==1:
-            pass
+            return client.algoritmo_euclides(a,b)
         elif operacion==2:
-            pass
-        elif operacion==3:
-            pass
-        else:
-            client.ping()
+            return client.algoritmo_extendido_euclides(a,b)
 
         transport.close()
 
@@ -276,7 +272,14 @@ class CalculadoraHandler:
                 resultado.success=False
                 resultado.message = "El determinante solo está definido para matrices de tamaño 3x3"
                 return resultado
-            
+    
+    def algoritmo_euclides(self,a,b):
+        print("Llamando al servido de Álgebra...")
+        return self.llamarAvanzado(1,a,b)
+
+    def algoritmo_extendido_euclides(self,a,b):
+        print("Llamando al servido de Álgebra...")
+        return self.llamarAvanzado(2,a,b)
 
 
 

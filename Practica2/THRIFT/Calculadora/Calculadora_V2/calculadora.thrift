@@ -10,6 +10,20 @@ struct calc_res{
    3: double result;
 }
 
+struct calc_eu{
+   1: bool success;
+   2: string message;
+   3: i32 mcd;
+}
+
+struct calc_ext_eu{
+   1: bool success;
+   2: string message;
+   3: i32 mcd;
+   4: i32 x;
+   5: i32 y;
+}
+
 struct calc_vec{
    1: bool success;
    2: string message;
@@ -41,8 +55,12 @@ service Calculadora{
    calc_mat restar_matrices(1:Matrix matriz1,2:Matrix matriz2),
    calc_mat multiplicar_matrices(1:Matrix matriz1,2:Matrix matriz2),
    calc_res determinante(1:Matrix matriz),
+   calc_eu algoritmo_euclides(1:i32 a, 2:i32 b),
+   calc_ext_eu algoritmo_extendido_euclides(1:i32 a, 2:i32 b),
 }
 
 service CalculadoraAvanzada{
    void ping(),
+   calc_eu algoritmo_euclides(1:i32 a, 2:i32 b),
+   calc_ext_eu algoritmo_extendido_euclides(1:i32 a, 2:i32 b),
 }

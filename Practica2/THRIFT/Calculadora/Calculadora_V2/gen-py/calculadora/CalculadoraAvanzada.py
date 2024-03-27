@@ -22,6 +22,24 @@ class Iface(object):
     def ping(self):
         pass
 
+    def algoritmo_euclides(self, a, b):
+        """
+        Parameters:
+         - a
+         - b
+
+        """
+        pass
+
+    def algoritmo_extendido_euclides(self, a, b):
+        """
+        Parameters:
+         - a
+         - b
+
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -54,12 +72,82 @@ class Client(Iface):
         iprot.readMessageEnd()
         return
 
+    def algoritmo_euclides(self, a, b):
+        """
+        Parameters:
+         - a
+         - b
+
+        """
+        self.send_algoritmo_euclides(a, b)
+        return self.recv_algoritmo_euclides()
+
+    def send_algoritmo_euclides(self, a, b):
+        self._oprot.writeMessageBegin('algoritmo_euclides', TMessageType.CALL, self._seqid)
+        args = algoritmo_euclides_args()
+        args.a = a
+        args.b = b
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_algoritmo_euclides(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = algoritmo_euclides_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "algoritmo_euclides failed: unknown result")
+
+    def algoritmo_extendido_euclides(self, a, b):
+        """
+        Parameters:
+         - a
+         - b
+
+        """
+        self.send_algoritmo_extendido_euclides(a, b)
+        return self.recv_algoritmo_extendido_euclides()
+
+    def send_algoritmo_extendido_euclides(self, a, b):
+        self._oprot.writeMessageBegin('algoritmo_extendido_euclides', TMessageType.CALL, self._seqid)
+        args = algoritmo_extendido_euclides_args()
+        args.a = a
+        args.b = b
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_algoritmo_extendido_euclides(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = algoritmo_extendido_euclides_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "algoritmo_extendido_euclides failed: unknown result")
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
         self._processMap["ping"] = Processor.process_ping
+        self._processMap["algoritmo_euclides"] = Processor.process_algoritmo_euclides
+        self._processMap["algoritmo_extendido_euclides"] = Processor.process_algoritmo_extendido_euclides
         self._on_message_begin = None
 
     def on_message_begin(self, func):
@@ -101,6 +189,52 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("ping", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_algoritmo_euclides(self, seqid, iprot, oprot):
+        args = algoritmo_euclides_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = algoritmo_euclides_result()
+        try:
+            result.success = self._handler.algoritmo_euclides(args.a, args.b)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("algoritmo_euclides", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_algoritmo_extendido_euclides(self, seqid, iprot, oprot):
+        args = algoritmo_extendido_euclides_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = algoritmo_extendido_euclides_result()
+        try:
+            result.success = self._handler.algoritmo_extendido_euclides(args.a, args.b)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("algoritmo_extendido_euclides", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -191,6 +325,278 @@ class ping_result(object):
         return not (self == other)
 all_structs.append(ping_result)
 ping_result.thrift_spec = (
+)
+
+
+class algoritmo_euclides_args(object):
+    """
+    Attributes:
+     - a
+     - b
+
+    """
+
+
+    def __init__(self, a=None, b=None,):
+        self.a = a
+        self.b = b
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.a = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.b = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('algoritmo_euclides_args')
+        if self.a is not None:
+            oprot.writeFieldBegin('a', TType.I32, 1)
+            oprot.writeI32(self.a)
+            oprot.writeFieldEnd()
+        if self.b is not None:
+            oprot.writeFieldBegin('b', TType.I32, 2)
+            oprot.writeI32(self.b)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(algoritmo_euclides_args)
+algoritmo_euclides_args.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'a', None, None, ),  # 1
+    (2, TType.I32, 'b', None, None, ),  # 2
+)
+
+
+class algoritmo_euclides_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = calc_eu()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('algoritmo_euclides_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(algoritmo_euclides_result)
+algoritmo_euclides_result.thrift_spec = (
+    (0, TType.STRUCT, 'success', [calc_eu, None], None, ),  # 0
+)
+
+
+class algoritmo_extendido_euclides_args(object):
+    """
+    Attributes:
+     - a
+     - b
+
+    """
+
+
+    def __init__(self, a=None, b=None,):
+        self.a = a
+        self.b = b
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.a = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.b = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('algoritmo_extendido_euclides_args')
+        if self.a is not None:
+            oprot.writeFieldBegin('a', TType.I32, 1)
+            oprot.writeI32(self.a)
+            oprot.writeFieldEnd()
+        if self.b is not None:
+            oprot.writeFieldBegin('b', TType.I32, 2)
+            oprot.writeI32(self.b)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(algoritmo_extendido_euclides_args)
+algoritmo_extendido_euclides_args.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'a', None, None, ),  # 1
+    (2, TType.I32, 'b', None, None, ),  # 2
+)
+
+
+class algoritmo_extendido_euclides_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = calc_ext_eu()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('algoritmo_extendido_euclides_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(algoritmo_extendido_euclides_result)
+algoritmo_extendido_euclides_result.thrift_spec = (
+    (0, TType.STRUCT, 'success', [calc_ext_eu, None], None, ),  # 0
 )
 fix_spec(all_structs)
 del all_structs
