@@ -1326,10 +1326,10 @@ class suma_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype17, _size14) = iprot.readListBegin()
-                    for _i18 in range(_size14):
-                        _elem19 = iprot.readDouble()
-                        self.elements.append(_elem19)
+                    (_etype24, _size21) = iprot.readListBegin()
+                    for _i25 in range(_size21):
+                        _elem26 = iprot.readDouble()
+                        self.elements.append(_elem26)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1346,8 +1346,8 @@ class suma_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter20 in self.elements:
-                oprot.writeDouble(iter20)
+            for iter27 in self.elements:
+                oprot.writeDouble(iter27)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1394,8 +1394,9 @@ class suma_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -1409,8 +1410,8 @@ class suma_result(object):
             return
         oprot.writeStructBegin('suma_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1430,7 +1431,7 @@ class suma_result(object):
         return not (self == other)
 all_structs.append(suma_result)
 suma_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -1457,10 +1458,10 @@ class resta_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype24, _size21) = iprot.readListBegin()
-                    for _i25 in range(_size21):
-                        _elem26 = iprot.readDouble()
-                        self.elements.append(_elem26)
+                    (_etype31, _size28) = iprot.readListBegin()
+                    for _i32 in range(_size28):
+                        _elem33 = iprot.readDouble()
+                        self.elements.append(_elem33)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1477,8 +1478,8 @@ class resta_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter27 in self.elements:
-                oprot.writeDouble(iter27)
+            for iter34 in self.elements:
+                oprot.writeDouble(iter34)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1525,8 +1526,9 @@ class resta_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -1540,8 +1542,8 @@ class resta_result(object):
             return
         oprot.writeStructBegin('resta_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1561,7 +1563,7 @@ class resta_result(object):
         return not (self == other)
 all_structs.append(resta_result)
 resta_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -1588,10 +1590,10 @@ class multiplicacion_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype31, _size28) = iprot.readListBegin()
-                    for _i32 in range(_size28):
-                        _elem33 = iprot.readDouble()
-                        self.elements.append(_elem33)
+                    (_etype38, _size35) = iprot.readListBegin()
+                    for _i39 in range(_size35):
+                        _elem40 = iprot.readDouble()
+                        self.elements.append(_elem40)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1608,8 +1610,8 @@ class multiplicacion_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter34 in self.elements:
-                oprot.writeDouble(iter34)
+            for iter41 in self.elements:
+                oprot.writeDouble(iter41)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1656,8 +1658,9 @@ class multiplicacion_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -1671,8 +1674,8 @@ class multiplicacion_result(object):
             return
         oprot.writeStructBegin('multiplicacion_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1692,7 +1695,7 @@ class multiplicacion_result(object):
         return not (self == other)
 all_structs.append(multiplicacion_result)
 multiplicacion_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -1719,10 +1722,10 @@ class division_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype38, _size35) = iprot.readListBegin()
-                    for _i39 in range(_size35):
-                        _elem40 = iprot.readDouble()
-                        self.elements.append(_elem40)
+                    (_etype45, _size42) = iprot.readListBegin()
+                    for _i46 in range(_size42):
+                        _elem47 = iprot.readDouble()
+                        self.elements.append(_elem47)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1739,8 +1742,8 @@ class division_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter41 in self.elements:
-                oprot.writeDouble(iter41)
+            for iter48 in self.elements:
+                oprot.writeDouble(iter48)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1787,8 +1790,9 @@ class division_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -1802,8 +1806,8 @@ class division_result(object):
             return
         oprot.writeStructBegin('division_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1823,7 +1827,7 @@ class division_result(object):
         return not (self == other)
 all_structs.append(division_result)
 division_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -1910,8 +1914,9 @@ class sen_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -1925,8 +1930,8 @@ class sen_result(object):
             return
         oprot.writeStructBegin('sen_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1946,7 +1951,7 @@ class sen_result(object):
         return not (self == other)
 all_structs.append(sen_result)
 sen_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -2033,8 +2038,9 @@ class cos_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2048,8 +2054,8 @@ class cos_result(object):
             return
         oprot.writeStructBegin('cos_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2069,7 +2075,7 @@ class cos_result(object):
         return not (self == other)
 all_structs.append(cos_result)
 cos_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -2156,8 +2162,9 @@ class tangente_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2171,8 +2178,8 @@ class tangente_result(object):
             return
         oprot.writeStructBegin('tangente_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2192,7 +2199,7 @@ class tangente_result(object):
         return not (self == other)
 all_structs.append(tangente_result)
 tangente_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -2279,8 +2286,9 @@ class grados_radianes_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2294,8 +2302,8 @@ class grados_radianes_result(object):
             return
         oprot.writeStructBegin('grados_radianes_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2315,7 +2323,7 @@ class grados_radianes_result(object):
         return not (self == other)
 all_structs.append(grados_radianes_result)
 grados_radianes_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -2402,8 +2410,9 @@ class radianes_grados_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
+                if ftype == TType.STRUCT:
+                    self.success = calc_res()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2417,8 +2426,8 @@ class radianes_grados_result(object):
             return
         oprot.writeStructBegin('radianes_grados_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2438,7 +2447,7 @@ class radianes_grados_result(object):
         return not (self == other)
 all_structs.append(radianes_grados_result)
 radianes_grados_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 
 
@@ -2467,20 +2476,20 @@ class sumar_vectores_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype45, _size42) = iprot.readListBegin()
-                    for _i46 in range(_size42):
-                        _elem47 = iprot.readDouble()
-                        self.elements.append(_elem47)
+                    (_etype52, _size49) = iprot.readListBegin()
+                    for _i53 in range(_size49):
+                        _elem54 = iprot.readDouble()
+                        self.elements.append(_elem54)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.elements2 = []
-                    (_etype51, _size48) = iprot.readListBegin()
-                    for _i52 in range(_size48):
-                        _elem53 = iprot.readDouble()
-                        self.elements2.append(_elem53)
+                    (_etype58, _size55) = iprot.readListBegin()
+                    for _i59 in range(_size55):
+                        _elem60 = iprot.readDouble()
+                        self.elements2.append(_elem60)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -2497,15 +2506,15 @@ class sumar_vectores_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter54 in self.elements:
-                oprot.writeDouble(iter54)
+            for iter61 in self.elements:
+                oprot.writeDouble(iter61)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.elements2 is not None:
             oprot.writeFieldBegin('elements2', TType.LIST, 2)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements2))
-            for iter55 in self.elements2:
-                oprot.writeDouble(iter55)
+            for iter62 in self.elements2:
+                oprot.writeDouble(iter62)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -2553,13 +2562,9 @@ class sumar_vectores_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype59, _size56) = iprot.readListBegin()
-                    for _i60 in range(_size56):
-                        _elem61 = iprot.readDouble()
-                        self.success.append(_elem61)
-                    iprot.readListEnd()
+                if ftype == TType.STRUCT:
+                    self.success = calc_vec()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2573,11 +2578,8 @@ class sumar_vectores_result(object):
             return
         oprot.writeStructBegin('sumar_vectores_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.DOUBLE, len(self.success))
-            for iter62 in self.success:
-                oprot.writeDouble(iter62)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2597,7 +2599,7 @@ class sumar_vectores_result(object):
         return not (self == other)
 all_structs.append(sumar_vectores_result)
 sumar_vectores_result.thrift_spec = (
-    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_vec, None], None, ),  # 0
 )
 
 
@@ -2712,13 +2714,9 @@ class restar_vectores_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype80, _size77) = iprot.readListBegin()
-                    for _i81 in range(_size77):
-                        _elem82 = iprot.readDouble()
-                        self.success.append(_elem82)
-                    iprot.readListEnd()
+                if ftype == TType.STRUCT:
+                    self.success = calc_vec()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2732,11 +2730,8 @@ class restar_vectores_result(object):
             return
         oprot.writeStructBegin('restar_vectores_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.DOUBLE, len(self.success))
-            for iter83 in self.success:
-                oprot.writeDouble(iter83)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2756,7 +2751,7 @@ class restar_vectores_result(object):
         return not (self == other)
 all_structs.append(restar_vectores_result)
 restar_vectores_result.thrift_spec = (
-    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_vec, None], None, ),  # 0
 )
 
 
@@ -2785,20 +2780,20 @@ class multiplicar_vectores_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype87, _size84) = iprot.readListBegin()
-                    for _i88 in range(_size84):
-                        _elem89 = iprot.readDouble()
-                        self.elements.append(_elem89)
+                    (_etype80, _size77) = iprot.readListBegin()
+                    for _i81 in range(_size77):
+                        _elem82 = iprot.readDouble()
+                        self.elements.append(_elem82)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.elements2 = []
-                    (_etype93, _size90) = iprot.readListBegin()
-                    for _i94 in range(_size90):
-                        _elem95 = iprot.readDouble()
-                        self.elements2.append(_elem95)
+                    (_etype86, _size83) = iprot.readListBegin()
+                    for _i87 in range(_size83):
+                        _elem88 = iprot.readDouble()
+                        self.elements2.append(_elem88)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -2815,15 +2810,15 @@ class multiplicar_vectores_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter96 in self.elements:
-                oprot.writeDouble(iter96)
+            for iter89 in self.elements:
+                oprot.writeDouble(iter89)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.elements2 is not None:
             oprot.writeFieldBegin('elements2', TType.LIST, 2)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements2))
-            for iter97 in self.elements2:
-                oprot.writeDouble(iter97)
+            for iter90 in self.elements2:
+                oprot.writeDouble(iter90)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -2871,13 +2866,9 @@ class multiplicar_vectores_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype101, _size98) = iprot.readListBegin()
-                    for _i102 in range(_size98):
-                        _elem103 = iprot.readDouble()
-                        self.success.append(_elem103)
-                    iprot.readListEnd()
+                if ftype == TType.STRUCT:
+                    self.success = calc_vec()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -2891,11 +2882,8 @@ class multiplicar_vectores_result(object):
             return
         oprot.writeStructBegin('multiplicar_vectores_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.DOUBLE, len(self.success))
-            for iter104 in self.success:
-                oprot.writeDouble(iter104)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2915,7 +2903,7 @@ class multiplicar_vectores_result(object):
         return not (self == other)
 all_structs.append(multiplicar_vectores_result)
 multiplicar_vectores_result.thrift_spec = (
-    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_vec, None], None, ),  # 0
 )
 
 
@@ -2944,20 +2932,20 @@ class dividir_vectores_args(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.elements = []
-                    (_etype108, _size105) = iprot.readListBegin()
-                    for _i109 in range(_size105):
-                        _elem110 = iprot.readDouble()
-                        self.elements.append(_elem110)
+                    (_etype94, _size91) = iprot.readListBegin()
+                    for _i95 in range(_size91):
+                        _elem96 = iprot.readDouble()
+                        self.elements.append(_elem96)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.elements2 = []
-                    (_etype114, _size111) = iprot.readListBegin()
-                    for _i115 in range(_size111):
-                        _elem116 = iprot.readDouble()
-                        self.elements2.append(_elem116)
+                    (_etype100, _size97) = iprot.readListBegin()
+                    for _i101 in range(_size97):
+                        _elem102 = iprot.readDouble()
+                        self.elements2.append(_elem102)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -2974,15 +2962,15 @@ class dividir_vectores_args(object):
         if self.elements is not None:
             oprot.writeFieldBegin('elements', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements))
-            for iter117 in self.elements:
-                oprot.writeDouble(iter117)
+            for iter103 in self.elements:
+                oprot.writeDouble(iter103)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.elements2 is not None:
             oprot.writeFieldBegin('elements2', TType.LIST, 2)
             oprot.writeListBegin(TType.DOUBLE, len(self.elements2))
-            for iter118 in self.elements2:
-                oprot.writeDouble(iter118)
+            for iter104 in self.elements2:
+                oprot.writeDouble(iter104)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -3030,13 +3018,9 @@ class dividir_vectores_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype122, _size119) = iprot.readListBegin()
-                    for _i123 in range(_size119):
-                        _elem124 = iprot.readDouble()
-                        self.success.append(_elem124)
-                    iprot.readListEnd()
+                if ftype == TType.STRUCT:
+                    self.success = calc_vec()
+                    self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -3050,11 +3034,8 @@ class dividir_vectores_result(object):
             return
         oprot.writeStructBegin('dividir_vectores_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.DOUBLE, len(self.success))
-            for iter125 in self.success:
-                oprot.writeDouble(iter125)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -3074,7 +3055,7 @@ class dividir_vectores_result(object):
         return not (self == other)
 all_structs.append(dividir_vectores_result)
 dividir_vectores_result.thrift_spec = (
-    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_vec, None], None, ),  # 0
 )
 
 
@@ -3176,7 +3157,7 @@ class sumar_matrices_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = Matrix()
+                    self.success = calc_mat()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3212,7 +3193,7 @@ class sumar_matrices_result(object):
         return not (self == other)
 all_structs.append(sumar_matrices_result)
 sumar_matrices_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [Matrix, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_mat, None], None, ),  # 0
 )
 
 
@@ -3314,7 +3295,7 @@ class restar_matrices_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = Matrix()
+                    self.success = calc_mat()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3350,7 +3331,7 @@ class restar_matrices_result(object):
         return not (self == other)
 all_structs.append(restar_matrices_result)
 restar_matrices_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [Matrix, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_mat, None], None, ),  # 0
 )
 
 
@@ -3452,7 +3433,7 @@ class multiplicar_matrices_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = Matrix()
+                    self.success = calc_mat()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3488,7 +3469,7 @@ class multiplicar_matrices_result(object):
         return not (self == other)
 all_structs.append(multiplicar_matrices_result)
 multiplicar_matrices_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [Matrix, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_mat, None], None, ),  # 0
 )
 
 
@@ -3577,7 +3558,7 @@ class determinante_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = Matrix()
+                    self.success = calc_res()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3613,7 +3594,7 @@ class determinante_result(object):
         return not (self == other)
 all_structs.append(determinante_result)
 determinante_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [Matrix, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [calc_res, None], None, ),  # 0
 )
 fix_spec(all_structs)
 del all_structs

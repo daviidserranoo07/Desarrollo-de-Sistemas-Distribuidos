@@ -4,6 +4,12 @@ from thrift import Thrift
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
+from calculadora.ttypes import calc_res
+from calculadora.ttypes import calc_mat
+from calculadora.ttypes import calc_res
+from calculadora.ttypes import calc_vec
+from calculadora.ttypes import Matrix
+
 
 import math
 
@@ -39,56 +45,117 @@ def menu():
     return opcion
 
 def calculadoraBasica(numeros,opcion,client):
-
+    resultado = calc_res()
     if opcion==1:
         resultado=client.suma(numeros)
-        print("Resultado de la suma es: "+ str(resultado))
+        if resultado.success == True:
+            print("Resultado de la suma es: "+ str(resultado.result))
+        else:
+            print(resultado.message)
     elif opcion==2:
         resultado=client.resta(numeros)
-        print("Resultado de la resta es: "+ str(resultado))
+        if resultado.success == True:
+            print("Resultado de la resta es: "+ str(resultado.result))
+        else:
+            print(resultado.message)
     elif opcion==3:
         resultado=client.multiplicacion(numeros)
-        print("Resultado de la multiplicación es: "+ str(resultado))
+        if resultado.success == True:
+            print("Resultado de la multiplicacion es: "+ str(resultado.result))
+        else:
+            print(resultado.message)
     elif opcion==4:
         resultado=client.division(numeros)
-        if resultado==-1:
-            print("Error: No se puede dividir por cero.")
+        if resultado.success == True:
+            print("Resultado de la division es: "+ str(resultado.result))
         else:
-            print("Resultado de la división es: "+ str(resultado))
+            print(resultado.message)
 
 def calculadoraTrigonometrica(num,opcion,client):
+    resultado = calc_res()
     if opcion==5:
         resultado=client.sen(num)
-        print("Resultado del sen("+num+") es: "+ str(resultado))
+        print("Resultado del sen("+str(num)+") es: "+ str(resultado.result))
     elif opcion==6:
         resultado=client.cos(num)
-        print("Resultado del cos("+num+") es: "+ str(resultado))
+        print("Resultado del cos("+str(num)+") es: "+ str(resultado.result))
     elif opcion==7:
         resultado=client.tangente(num)
-        print("Resultado del tg("+num+") es: "+ str(resultado))
+        print("Resultado del tg("+str(num)+") es: "+ str(resultado.result))
     elif opcion==8:
         resultado=client.grados_radianes(num)
-        print("El valor de ("+num+") grados son: "+ str(resultado)+" radianes")
+        print("El valor de ("+str(num)+") grados son: "+ str(resultado.result)+" radianes")
     elif opcion==9:
         resultado=client.radianes_grados(num)
-        print("El radianes de ("+num+") grados son: "+ str(resultado)+" grados")
+        print("El radianes de ("+str(num)+") grados son: "+ str(resultado.result)+" grados")
 
-def calculadoraVectores(vector1,vector2,opcion,cliente):
-    # if opcion==10:
-    # elif opcion==11:
-    # elif opcion==12:
-    # elif opcion==13:
-    return
+def calculadoraVectores(vector1,vector2,opcion,client):
+    resultado = calc_vec()
+    if opcion==10:
+        resultado=client.sumar_vectores(vector1,vector2)
+        if resultado.success==True:
+            print("El resultado de la suma de vectores es:\n")
+            print(resultado.result)
+        else:
+            print(resultado.message)
+    elif opcion==11:
+        resultado=client.restar_vectores(vector1,vector2)
+        if resultado.success==True:
+            print("El resultado de la resta de vectores es:\n")
+            print(resultado.result)
+        else:
+            print(resultado.message)
+    elif opcion==12:
+        resultado=client.multiplicar_vectores(vector1,vector2)
+        if resultado.success==True:
+            print("El resultado de la multiplicación de vectores es:\n")
+            print(resultado.result)
+        else:
+            print(resultado.message)
+    elif opcion==13:
+        resultado=client.dividir_vectores(vector1,vector2)
+        if resultado.success==True:
+            print("El resultado de la división de vectores es:\n")
+            print(resultado.result)
+        else:
+            print(resultado.message)
 
-def calculadoraMatrices(matriz1,matriz2,opcion,cliente):
-    # if opcion==14:
-    # elif opcion==15:
-    # elif opcion==16:
-    # elif opcion==17:
-    return
+def calculadoraMatrices(matriz1,matriz2,opcion,client):
+    resultado = calc_mat()
+    if opcion==14:
+        print("Llamemos al servidor\n")
+        resultado=client.sumar_matrices(matriz1,matriz2)
+        if resultado.success:
+            print("El resultado de la suma de matrices es:\n")
+            print(resultado.result.matriz)
+        else:
+            print(resultado.message)
+    elif opcion==15:
+        resultado=client.restar_matrices(matriz1,matriz2)
+        if resultado.success==True:
+            print("El resultado de la resta de matrices es:\n")
+            print(resultado.result.matriz)
+        else:
+            print(resultado.message)
+    elif opcion==16:
+        resultado=client.multiplicar_matrices(matriz1,matriz2)
+        if resultado.success==True:
+            print("El resultado de la multiplicar de matrices es:\n")
+            print(resultado.result.matriz)
+        else:
+            print(resultado.message)
+
+def calculadoraDeterminante(matriz,client):
+        resultado = calc_res()
+        resultado = client.determinante(matriz)
+        if resultado.success==True:
+            print("El resultado del determinante es:\n")
+            print(resultado.result)
+        else:
+            print(resultado.message)
 
 def main():
-    transport = TSocket.TSocket("localhost", 9090)
+    transport = TSocket.TSocket("localhost", 9091)
     transport = TTransport.TBufferedTransport(transport)
     protocol = TBinaryProtocol.TBinaryProtocol(transport)
 
@@ -96,22 +163,28 @@ def main():
 
     transport.open()
     numeros=list()
+    vector1=list()
+    vector2=list()
+    matriz1= Matrix()
+    matriz2= Matrix()
+
     while True:
+        client.ping()
         opcion = menu()
         if opcion != 18:
             if opcion<5: tipo=1
             elif opcion<10: tipo=2
             elif opcion<14: tipo=3
-            elif opcion<17: tipo=4
+            elif opcion<16: tipo=4
             elif opcion==16: tipo=5
             else: tipo=6 
 
             if tipo==1:
-                cantidad = int(input("Introduzca la cantidad de números con los que quiere operar: "))
+                cantidad = int(input("Introduzca la cantidad de números con los que quiere operar: \n"))
                 if cantidad<=100 and cantidad>=1:
                     numeros.clear()
                     for numero in range(0,cantidad):
-                        valor=float(input("Introduzca el número "+str(numero+1)+": "))
+                        valor=float(input("\nIntroduzca el número "+str(numero+1)+": "))
                         numeros.append(valor)
                 else:
                     print("Esa cantidad no esta permitida.")
@@ -123,37 +196,74 @@ def main():
                 else: 
                     valor = float(input("Introduzca los radianes: "))
                 calculadoraTrigonometrica(valor,opcion,client)
-            # elif tipo==3:
-            # elif tipo==4:
-            # elif tipo==5:
-            # elif tipo==6:
-        continuar=int(input("\nDesea realizar otra operación: "
-			                "\n1. Introduzca cualquier número en caso de que si: "
-			                "\n2. Introduzca 0 en caso de que no: \n"))
+            elif tipo==3:
+                cantidad=int(input("Introduzca el tamaño que desea que tengan los vectores(ambos tendrán el mismo): "))
+                vector1.clear()
+                vector2.clear()
+                for numero in range(0,cantidad):
+                    valor = float(input("\nIntroduzca el valor del vector1["+str(numero+1)+"]: "))
+                    vector1.append(valor)
+                    valor = float(input("Introduzca el valor del vector2["+str(numero+1)+"]: "))
+                    vector2.append(valor)
+                calculadoraVectores(vector1,vector2,opcion,client)
+            elif tipo==4:
+                matriz1.matriz = []
+                matriz2.matriz = []
+                filas=int(input("Introduzca el número de filas que desea que tengan las matrices: "))
+                columnas=int(input("\nIntroduzca el número de columnas que desea que tengan las matrices: "))
+                matriz1.filas=filas
+                matriz2.filas=filas
+                matriz1.columnas=columnas
+                matriz2.columnas=columnas
+                for fila in range(filas):
+                    matriz1.matriz.append([0]*columnas)
+                    matriz2.matriz.append([0]*columnas)
+                    for columna in range(columnas):
+                        valor = float(input("\nIntroduzca el valor de la matriz1["+str(fila)+"]["+str(columna)+"]: "))
+                        matriz1.matriz[fila][columna]=valor
+                        valor = float(input("Introduzca el valor de la matriz2["+str(fila)+"]["+str(columna)+"]: "))
+                        matriz2.matriz[fila][columna]=valor
+                calculadoraMatrices(matriz1,matriz2,opcion,client)
+            elif tipo==5:
+                matriz1.matriz = []
+                matriz2.matriz = []
+                filas=int(input("Introduzca el número de filas que desea que tenga la primera matriz a multiplicar: "))
+                columnas=int(input("\nIntroduzca el número de columnas que desea que tenga la primera matriz a multiplicar: "))
+                matriz1.filas=filas
+                matriz1.columnas=columnas
+                for fila in range(filas):
+                    matriz1.matriz.append([0]*columnas)
+                    for columna in range(columnas):
+                        valor = float(input("\nIntroduzca el valor de la matriz1["+str(fila)+"]["+str(columna)+"]: "))
+                        matriz1.matriz[fila][columna]=valor
+                filas=int(input("Introduzca el número de filas que desea que tenga la segunda matriz a multiplicar(Deber ser igual al número columnas de la primera): "))
+                columnas=int(input("\nIntroduzca el número de columnas que desea que tenga la segunda matriz a multiplicar: "))
+                matriz2.filas=filas
+                matriz2.columnas=columnas
+                for fila in range(filas):
+                    matriz2.matriz.append([0]*columnas)
+                    for columna in range(columnas):
+                        valor = float(input("\nIntroduzca el valor de la matriz2["+str(fila)+"]["+str(columna)+"]: "))
+                        matriz2.matriz[fila][columna]=valor
+                calculadoraMatrices(matriz1,matriz2,opcion,client)
+            elif tipo==6:
+                matriz1.matriz = []
+                filas=int(input("Introduzca el número de filas que desea que tenga matriz que quiere calcular el determinante: "))
+                columnas=int(input("Introduzca el número de columnas que desea que tenga matriz que quiere calcular el determinante: "))
+                matriz1.filas=filas
+                matriz1.columnas=columnas
+                for fila in range(filas):
+                    matriz1.matriz.append([0]*columnas)
+                    for columna in range(columnas):
+                        valor = float(input("\nIntroduzca el valor de la matriz1["+str(fila)+"]["+str(columna)+"]: "))
+                        matriz1.matriz[fila][columna]=valor
+                calculadoraDeterminante(matriz1,client)
+        if opcion!=18:
+            continuar=int(input("\nDesea realizar otra operación: "
+			                    "\n1. Introduzca cualquier número en caso de que si: "
+			                    "\n2. Introduzca 0 en caso de que no: \n"))
         if continuar==0 or opcion==18:
             break
-
-    # print("Hacemos ping al server")
-    # client.ping()
-
-    # resultado = client.suma(1, 1)
-    # print("1 + 1 = " + str(resultado))
-    # resultado = client.resta(1, 1)
-    # print("1 - 1 = " + str(resultado))
-    # resultado = client.multiplicacion(1, 1)
-    # print("1 * 1 = " + str(resultado))
-    # resultado = client.division(1, 1)
-    # print("1 / 1 = " + str(resultado))
-    # resultado = client.sen(1)
-    # print("Sen(1) = " + str(resultado))
-    # resultado = client.cos(0)
-    # print("Cos(0) = " + str(resultado))
-    # resultado = client.tangente(1)
-    # print("Tg(1) = " + str(resultado))
-    # resultado = client.radianes_grados(2*math.pi)
-    # print("Radianes a grados = " + str(resultado))
-    # resultado = client.grados_radianes(360)
-    # print("Grados a radianes = " + str(resultado))
 
     transport.close()
 
