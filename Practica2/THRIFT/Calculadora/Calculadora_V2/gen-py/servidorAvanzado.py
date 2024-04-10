@@ -39,10 +39,14 @@ class CalculadoraHandler:
         print("Calculando algoritmo de euclides...")
         resultado = calc_eu()
         resultado.success=True
-        while b!=0:
-            a, b = b, a % b
+        try:
+            while b!=0:
+                a, b = b, a % b
+            resultado.mcd=a
+        except ValueError as e:
+            resultado.success=False
+            resultado.message="Error al hacer el algoritmo de euclides"
         
-        resultado.mcd=a
 
         print("¡¡¡Calculado!!!")
         return resultado
@@ -59,16 +63,21 @@ class CalculadoraHandler:
             print("¡¡¡Calculado!!!")
             return resultado
         else:
-            resultado_anterior = calc_ext_eu()
-            resultado_anterior = self.algoritmo_extendido_euclides(b,a%b)
-            mcd = resultado_anterior.mcd
-            x = resultado_anterior.y
-            y = resultado_anterior.x - (a//b)* resultado_anterior.y
-            resultado.mcd = mcd
-            resultado.x = x 
-            resultado.y = y
-            print("¡¡¡Calculado!!!")
-            return resultado
+            try:
+                resultado_anterior = calc_ext_eu()
+                resultado_anterior = self.algoritmo_extendido_euclides(b,a%b)
+                mcd = resultado_anterior.mcd
+                x = resultado_anterior.y
+                y = resultado_anterior.x - (a//b)* resultado_anterior.y
+                resultado.mcd = mcd
+                resultado.x = x 
+                resultado.y = y
+                print("¡¡¡Calculado!!!")
+                return resultado
+            except ValueError as e:
+                resultado.success=False
+                resultado.message="Error al calcular el algoritmo extendido de euclides"
+                return resultado
 
 if __name__ == "__main__":
     main()

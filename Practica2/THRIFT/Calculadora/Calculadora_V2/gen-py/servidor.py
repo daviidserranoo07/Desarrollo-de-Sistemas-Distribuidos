@@ -41,7 +41,6 @@ class CalculadoraHandler:
         print("Me han hecho ping()")
     
     def llamarAvanzado(self,operacion,a,b):
-        #Nos conectamos con el segundo servidor si es necesario
         transport = TSocket.TSocket("localhost", 9092)
         transport = TTransport.TBufferedTransport(transport)
         protocol = TBinaryProtocol.TBinaryProtocol(transport)
@@ -59,37 +58,46 @@ class CalculadoraHandler:
     def suma(self,numeros):
         resultado = calc_res()
         resultado.success = True
-        resultado.result = sum(numeros)
-        self.llamarAvanzado(4)
+        if len(numeros) <= 0: 
+            resultado.success=False
+            resultado.message = " No podemos sumar una cantidad de número menor o igual a cero"
+        else:
+            resultado.result = sum(numeros)
         return resultado
 
     def resta(self, numeros):
         resultado = calc_res()
         resultado.success=True
-        resultado.result = numeros[0]
-        for valor in range(1,len(numeros)):
-            resultado.result=resultado.result-numeros[valor]
+        if len(numeros) <= 0: 
+            resultado.success=False
+            resultado.message = " No podemos restar una cantidad de número menor o igual a cero"
+        else:
+            resultado.result = numeros[0]
+            for valor in range(1,len(numeros)):
+                resultado.result=resultado.result-numeros[valor]
         return resultado
     
     def multiplicacion(self, numeros):
         resultado = calc_res()
         resultado.success=True
-        resultado.result=1
-        for valor in range(0,len(numeros)):
-            resultado.result=resultado.result*numeros[valor]
+        if len(numeros) <= 0: 
+            resultado.success=False
+            resultado.message = " No podemos restar una cantidad de número menor o igual a cero"
+        else:
+            resultado.result=1
+            for valor in range(0,len(numeros)):
+                resultado.result=resultado.result*numeros[valor]
         return resultado
 
     def division(self, numeros):
         resultado = calc_res()
         resultado.success = True
 
-        #Comprobamos que todos los número son distintos de 0 menos el primero, ya que 2/0 no esta definido, pero 0/2=0        
-        if any(num == 0 for num in numeros[1:]):
+        if any(num == 0 for num in numeros[1:]) or len(numeros)<=0:
             resultado.success = False
             resultado.message = "La división por cero no está definida"
             return resultado
 
-        #Inicializamos resultado con el primer valor de el array list números para poder empezar a dividir
         resultado.result = numeros[0]
         for valor in numeros[1:]:
                 resultado.result /= valor
@@ -97,74 +105,111 @@ class CalculadoraHandler:
 
     def sen(self, grados):
         resultado = calc_res()
-        resultado.success=True
         print("Calculando seno de " + str(grados))
-        resultado.result=math.sin(grados)
+        try:
+            resultado.success=True
+            print("Calculando seno de " + str(grados))
+            resultado.result=math.sin(grados)
+            return resultado
+        except ValueError as e:
+            resultado.success = False
+            resultado.message = "El ángulo debe estar entre 0 y 360 grados"
+
         return resultado
     
     def cos(self, grados):
         resultado = calc_res()
-        resultado.success=True
         print("Calculando coseno de " + str(grados))
-        resultado.result = math.cos(grados)
+        try:
+            resultado.result = math.cos(grados)
+            resultado.success = True
+        except ValueError as e:
+            resultado.success = False
+            resultado.message = "Error al calcular el coseno"
         return resultado
     
     def tangente(self, grados):
         resultado = calc_res()
-        resultado.success=True
         print("Calculando tangente de " + str(grados))
-        resultado.result = math.tan(grados)
+        try:
+            resultado.result = math.tan(grados)
+            resultado.success = True
+        except ValueError as e:
+            resultado.success = False
+            resultado.message = "Error al calcular la tangente"
         return resultado
     
     def grados_radianes(self,grados):
         resultado = calc_res()
-        resultado.success = True
         print("Pasando a radianes: " + str(grados))
-        resultado.result = grados * (math.pi/180)
+        try:
+            resultado.result = grados * (math.pi/180)
+            resultado.success = True
+        except ValueError as e:
+            resultado.success = False
+            resultado.message = "Error al convertir grados a radianes"
         return resultado
     
     def radianes_grados(self,radianes):
         resultado = calc_res()
-        resultado.success = True
         print("Pasando a grados: " + str(radianes))
-        resultado.result = radianes * (180/math.pi)
+        try:
+            resultado.result = radianes * (180/math.pi)
+            resultado.success = True
+        except ValueError as e:
+            resultado.success = False
+            resultado.message = "Error al convertir radianes a grados"
         return resultado
 
     def sumar_vectores(self,vector1,vector2):
         resultado = calc_vec()
-        resultado.success=True
-        resultado.result = []
-        for valor in range(0,len(vector1)):
-            resultado.result.append(vector1[valor]+vector2[valor])
+        if len(vector1)<=0 or len(vector2)<=0:
+            resultado.success=False
+            resultado.message="Error el tamaño de ambos vectores debe ser mayor que cero"
+        else:
+            resultado.success=True
+            resultado.result = []
+            for valor in range(0,len(vector1)):
+                resultado.result.append(vector1[valor]+vector2[valor])
         return resultado
     
     def restar_vectores(self,vector1,vector2):
         resultado = calc_vec()
-        resultado.success=True
-        resultado.result = []
-        for valor in range(0,len(vector1)):
-            resultado.result.append(vector1[valor]-vector2[valor])
+        if len(vector1)<=0 or len(vector2)<=0:
+            resultado.success=False
+            resultado.message="Error el tamaño de ambos vectores debe ser mayor que cero"
+        else:
+            resultado.success=True
+            resultado.result = []
+            for valor in range(0,len(vector1)):
+                resultado.result.append(vector1[valor]-vector2[valor])
         return resultado
 
     def multiplicar_vectores(self,vector1,vector2):
         resultado = calc_vec()
-        resultado.success=True
-        resultado.result = []
-        for valor in range(0,len(vector1)):
-            resultado.result.append(vector1[valor]*vector2[valor])
+        if len(vector1)<=0 or len(vector2)<=0:
+            resultado.success=False
+            resultado.message="Error el tamaño de ambos vectores debe ser mayor que cero"
+        else:
+            resultado.success=True
+            resultado.result = []
+            for valor in range(0,len(vector1)):
+                resultado.result.append(vector1[valor]*vector2[valor])
         return resultado
 
     def dividir_vectores(self,vector1,vector2):
         resultado = calc_vec()
-        resultado.success=True
-        resultado.result = []
-        for valor in range(0,len(vector1)):
-            if vector2[valor] != 0:
+        if len(vector1)<=0 or len(vector2)<=0:
+            resultado.success=False
+            resultado.message="Error el tamaño de ambos vectores debe ser mayor que cero"
+        elif any(num == 0 for num in vector2[1:]):
+            resultado.success = False
+            resultado.message = "La división por cero no está definida"
+        else:
+            resultado.success=True
+            resultado.result = []
+            for valor in range(0,len(vector1)):
                 resultado.result.append(vector1[valor]/vector2[valor])
-            else:
-                resultado.success=False
-                resultado.message="La división por cero no está definida"
-                return resultado
         return resultado
 
     def sumar_matrices(self,matriz1,matriz2):
@@ -274,11 +319,11 @@ class CalculadoraHandler:
                 return resultado
     
     def algoritmo_euclides(self,a,b):
-        print("Llamando al servido de Álgebra...")
+        print("Llamando al servidor de Álgebra...")
         return self.llamarAvanzado(1,a,b)
 
     def algoritmo_extendido_euclides(self,a,b):
-        print("Llamando al servido de Álgebra...")
+        print("Llamando al servidor de Álgebra...")
         return self.llamarAvanzado(2,a,b)
 
 

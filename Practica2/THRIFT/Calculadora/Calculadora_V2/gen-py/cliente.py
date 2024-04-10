@@ -53,25 +53,25 @@ def calculadoraBasica(numeros,opcion,client):
     resultado = calc_res()
     if opcion==1:
         resultado=client.suma(numeros)
-        if resultado.success == True:
+        if resultado.success:
             print("Resultado de la suma es: "+ str(resultado.result))
         else:
             print(resultado.message)
     elif opcion==2:
         resultado=client.resta(numeros)
-        if resultado.success == True:
+        if resultado.success:
             print("Resultado de la resta es: "+ str(resultado.result))
         else:
             print(resultado.message)
     elif opcion==3:
         resultado=client.multiplicacion(numeros)
-        if resultado.success == True:
+        if resultado.success:
             print("Resultado de la multiplicacion es: "+ str(resultado.result))
         else:
             print(resultado.message)
     elif opcion==4:
         resultado=client.division(numeros)
-        if resultado.success == True:
+        if resultado.success:
             print("Resultado de la division es: "+ str(resultado.result))
         else:
             print(resultado.message)
