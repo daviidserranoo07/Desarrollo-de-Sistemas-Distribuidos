@@ -10,8 +10,8 @@ public interface ServidorCliente_I extends Remote{
     ArrayList<String> listaDonantes(String user) throws RemoteException;
     ArrayList<String> listaDonantesTotal(String user) throws RemoteException;
     double totalDonadoUsuario(String user) throws RemoteException;
-    double totalDonado() throws RemoteException;
-    double subtotal() throws RemoteException;
+    double totalDonado(String user) throws RemoteException;
+    double subtotal(String user) throws RemoteException;
     int getUsuarios() throws RemoteException;
     int getTotalUsuarios() throws RemoteException;
 }

@@ -11,6 +11,5 @@ public interface ServidorServidor_I extends Remote{
     double getSubtotal() throws RemoteException;
     ServidorServidor_I getReplica(String host, String nombre) throws RemoteException;
     ArrayList<String> getDonantesReplica(String user) throws RemoteException;
-    void setSubTotal(double valor) throws RemoteException;
     void asignarServidor(String user, String password) throws RemoteException;
 }

@@ -12,6 +12,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
     private static String HOST = "localhost";
     private Map<String,String> usuariosRegistrados;
     private Map<String,Double> donacionesPorUsuario;
+    private Map<String,Boolean> usuarioDonado;
     private Map<String,Integer> intentos;
     private double subtotal;
     private String replica,nombre;
@@ -21,6 +22,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
         this.usuariosRegistrados = new HashMap<>();
         this.donacionesPorUsuario = new HashMap<>();
         this.intentos = new HashMap<>();
+        this.usuarioDonado = new HashMap<>();
         this.subtotal=0;
         this.nombre = nombre;
         this.replica = replica;
@@ -68,6 +70,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
         if(this.usuariosRegistrados.containsKey(user)){
             double actual = this.donacionesPorUsuario.get(user);
             this.donacionesPorUsuario.put(user,actual+cantidad);
+            this.usuarioDonado.put(user, true);
             this.subtotal+=cantidad;
             return true;
         }else if(this.getReplica(ServidorCliente.HOST,this.replica).existeUsuario(user)){
@@ -80,25 +83,33 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
 
     @Override
     public ArrayList<String> listaDonantes(String user) throws RemoteException {
-        if(this.usuariosRegistrados.containsKey(user)){
-            ArrayList<String> donantes = new ArrayList<>();
-            for(Map.Entry<String,Double> entry : donacionesPorUsuario.entrySet()){
-                String usuario = entry.getKey();
-                Double donaciones = entry.getValue();
-                if(donaciones>0){
-                    donantes.add(usuario);
+        ArrayList<String> donantes = new ArrayList<>();
+        if(this.usuarioDonado.get(user)){
+            if(this.usuariosRegistrados.containsKey(user)){
+                for(Map.Entry<String,Double> entry : donacionesPorUsuario.entrySet()){
+                    String usuario = entry.getKey();
+                    Double donaciones = entry.getValue();
+                    if(donaciones>0){
+                        donantes.add(usuario);
+                    }
                 }
+                return donantes;
+            }else{
+                return this.getReplica(ServidorCliente.HOST, this.replica).getDonantesReplica(user);
             }
-            return donantes;
         }else{
-            return this.getReplica(ServidorCliente.HOST, this.replica).getDonantesReplica(user);
+            return donantes;
         }
+        
     }
 
     @Override
-    public double totalDonado() throws RemoteException {
-        ServidorServidor_I replica = this.getReplica("localhost", this.replica);
-        return this.subtotal + replica.getSubtotal();
+    public double totalDonado(String user) throws RemoteException {
+        if(this.usuarioDonado.get(user)){
+            ServidorServidor_I replica = this.getReplica(ServidorCliente.HOST, this.replica);
+            return this.subtotal + replica.getSubtotal();
+        }
+        return -1;
     }
 
     @Override
@@ -123,11 +134,6 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
     @Override
     public double getSubtotal() throws RemoteException {
         return this.subtotal;
-    }
-
-    @Override
-    public void setSubTotal(double valor) throws RemoteException {
-        this.subtotal = valor;
     }
 
     @Override
@@ -156,6 +162,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
         this.usuariosRegistrados.put(user,password);
         this.donacionesPorUsuario.put(user,0.0);
         this.intentos.put(user, 0);
+        this.usuarioDonado.put(user, false);
     }
 
     @Override
@@ -194,8 +201,11 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
     }
 
     @Override
-    public double subtotal() throws RemoteException {
-        return this.subtotal;
+    public double subtotal(String user) throws RemoteException {
+        if(this.usuarioDonado.get(user)){
+            return this.subtotal;
+        }
+        return -1;
     }
 
     @Override
