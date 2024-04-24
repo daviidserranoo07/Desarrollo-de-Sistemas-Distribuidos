@@ -3,7 +3,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface ServidorServidor_I extends Remote{
-    boolean existeUsuario(String User) throws RemoteException;//Preguntamos al otro servidor si el usuario esta registrado
+    boolean existeUsuario(String User) throws RemoteException;
     boolean confirmarSesion(String user, String password) throws RemoteException;
     boolean donarReplica(String user,double cantidad) throws RemoteException;
     String identificarUsuario(String user) throws RemoteException;
