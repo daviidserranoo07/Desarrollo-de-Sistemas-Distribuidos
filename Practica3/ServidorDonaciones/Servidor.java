@@ -8,7 +8,7 @@ public class Servidor {
             System.setSecurityManager(new SecurityManager());
         }
         try {
-            String nombre = "servidor", replica="replica";
+            String nombre = args[0], replica=args[1];
             ServidorCliente servidorCliente = new ServidorCliente(nombre,replica);
             Naming.rebind(nombre, servidorCliente);
         } catch (RemoteException | MalformedURLException e) {

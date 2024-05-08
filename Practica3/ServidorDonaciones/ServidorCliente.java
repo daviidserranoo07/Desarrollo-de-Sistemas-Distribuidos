@@ -10,6 +10,8 @@ import java.util.Map;
 public class ServidorCliente extends UnicastRemoteObject implements ServidorCliente_I,ServidorServidor_I{
     private static int INTENTOS = 3;
     private static String HOST = "localhost";
+
+    
     private Map<String,String> usuariosRegistrados;
     private Map<String,Double> donacionesPorUsuario;
     private Map<String,Boolean> usuarioDonado;
@@ -30,18 +32,19 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
 
     @Override
     public boolean registrar(String user, String password) throws RemoteException {
-        ServidorServidor_I replica = this.getReplica("localhost", this.replica);
-        if(!this.usuariosRegistrados.containsKey(user) && !replica.existeUsuario(user)){
-            if(this.getUsuarios()<=replica.getUsuariosReplica()){
+        ServidorServidor_I replica = this.getReplica(ServidorCliente.HOST, this.replica);
+        if (!this.usuariosRegistrados.containsKey(user) && !replica.existeUsuario(user)) {
+            if (this.getUsuarios() <= replica.getUsuariosReplica()) {
                 this.asignarServidor(user, password);
-            }else{
+            } else {
                 replica.asignarServidor(user, password);
             }
-            return true;//Se he registrado correctamente el usuario
-        }else{
-            return false; //Ya existe un usuario registrado con ese nombre
+            return true; // Se ha registrado correctamente el usuario
+        } else {
+            return false; // Ya existe un usuario registrado con ese nombre
         }
     }
+    
 
 
     @Override
@@ -58,8 +61,8 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
             }else{
                 return false;
             }
-        }else if (this.getReplica("localhost", this.replica).existeUsuario(user)) {
-            return this.getReplica("localhost", this.replica).confirmarSesion(user, password);
+        }else if (this.getReplica(ServidorCliente.HOST, this.replica).existeUsuario(user)) {
+            return this.getReplica(ServidorCliente.HOST, this.replica).confirmarSesion(user, password);
         }else{
             return false;
         }
@@ -67,7 +70,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
 
     @Override
     public boolean donar(String user,double cantidad) throws RemoteException {
-        if(this.usuariosRegistrados.containsKey(user)){
+        if(this.existeUsuario(user) && cantidad>0.0){
             double actual = this.donacionesPorUsuario.get(user);
             this.donacionesPorUsuario.put(user,actual+cantidad);
             this.usuarioDonado.put(user, true);
@@ -85,22 +88,16 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
     public ArrayList<String> listaDonantes(String user) throws RemoteException {
         ArrayList<String> donantes = new ArrayList<>();
         if(this.usuarioDonado.get(user)){
-            if(this.usuariosRegistrados.containsKey(user)){
-                for(Map.Entry<String,Double> entry : donacionesPorUsuario.entrySet()){
-                    String usuario = entry.getKey();
-                    Double donaciones = entry.getValue();
-                    if(donaciones>0){
-                        donantes.add(usuario);
-                    }
+            for(Map.Entry<String,Double> entry : donacionesPorUsuario.entrySet()){
+                String usuario = entry.getKey();
+                Double donaciones = entry.getValue();
+                if(donaciones>0){
+                    donantes.add(usuario);
                 }
-                return donantes;
-            }else{
-                return this.getReplica(ServidorCliente.HOST, this.replica).getDonantesReplica(user);
             }
-        }else{
             return donantes;
         }
-        
+        return donantes;
     }
 
     @Override
@@ -127,7 +124,6 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
         } catch(NotBoundException | RemoteException e) {
             System.err.println("Exception del sistema: " + e);
         }
-        
         return replica;
     }
 
@@ -143,10 +139,8 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
 
     @Override
     public String identificarUsuario(String user) throws RemoteException {
-        boolean existe = this.usuariosRegistrados.containsKey(user);
-
-        if(!existe){
-            ServidorServidor_I replica = this.getReplica("localhost", this.replica);
+        if(!this.existeUsuario(user)){
+            ServidorServidor_I replica = this.getReplica(ServidorCliente.HOST, this.replica);
             if(replica.existeUsuario(user)){
                 return this.replica;
             }else{
@@ -158,7 +152,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
     }
 
     @Override
-    public void asignarServidor(String user, String password) {
+    public void asignarServidor(String user, String password) throws RemoteException {
         this.usuariosRegistrados.put(user,password);
         this.donacionesPorUsuario.put(user,0.0);
         this.intentos.put(user, 0);
@@ -225,7 +219,7 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
 
     @Override
     public double totalDonadoUsuario(String user) throws RemoteException {
-        if(this.usuariosRegistrados.containsKey(user)){
+        if(this.existeUsuario(user)){
             return this.donacionesPorUsuario.get(user);
         }
         return -1;
@@ -235,9 +229,9 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
     public ArrayList<String> listaDonantesTotal(String user) throws RemoteException {
         ArrayList<String> totalDonantes = new ArrayList<>();
         int i;
-        if(this.usuariosRegistrados.containsKey(user) || this.getReplica(ServidorCliente.HOST,this.replica).existeUsuario(user)){
+        if(this.existeUsuario(user) && this.usuarioDonado.get(user)){
             for(i=0;i<this.listaDonantes(user).size();i++){
-                totalDonantes.add(listaDonantes(user).get(i));
+                totalDonantes.add(this.listaDonantes(user).get(i));
             }
             ServidorServidor_I replica = this.getReplica(ServidorCliente.HOST,this.replica);
             for(i=0;i<replica.getDonantesReplica(user).size();i++){
@@ -245,6 +239,6 @@ public class ServidorCliente extends UnicastRemoteObject implements ServidorClie
             }
             return totalDonantes;
         }
-        return null;
-    }
+        return totalDonantes;
+    } 
 }

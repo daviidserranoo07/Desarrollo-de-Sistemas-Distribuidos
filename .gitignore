@@ -50,3 +50,11 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/Practica3/Ejemplos/Ejemplo3/nbproject/private/
+/Practica3/Ejemplos/icontador/nbproject/private/
+/Practica3/Ejemplos/icontador/dist/
+/Practica3/Ejemplos/icontador/build/
+/Practica3/Ejemplos/contador/nbproject/private/
+/Practica3/Ejemplos/contador/build/
+/Practica3/Ejemplos/EJEMPLO3/cliente/dist/
+/Practica3/Ejemplos/EJEMPLO3/servidor/dist/

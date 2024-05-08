@@ -11,7 +11,7 @@ public class Ejemplo implements Ejemplo_I {
         super();
     }
 
-    public void escribir_mensaje (int id_proceso) {
+    public void escribir_mensaje (int id_proceso) throws RemoteException{
         System.out.println("Recibida peticion de proceso: "+id_proceso);
         if (id_proceso == 0) {
             try{

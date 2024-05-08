@@ -9,14 +9,13 @@ public class Cliente {
     public static int menuSesion(){
         Scanner scannerSesion = new Scanner(System.in);
         int opcion=-1;
-        while (opcion<0 || opcion>3) {
+        while (opcion<0 || opcion>3) { 
             System.out.print("\nSelecciona una de las siguientes operaciones:\n"+
                              "1.Registrarse\n"+
                              "2.Iniciar Sesion\n"+
                              "3.Salir\n");
             opcion = scannerSesion.nextInt();
         }
-        //scannerSesion.close();
         return opcion;
     }
 
@@ -36,7 +35,6 @@ public class Cliente {
                              "\n9.Salir\n");
             opcion = scannerSesion.nextInt();
         }
-        //scannerSesion.close();
         return opcion;
     }
 
@@ -58,7 +56,7 @@ public class Cliente {
                         valor=false;
                         while (!valor) {
                             System.out.print("\nIntroduzca el nombre de usuario: ");
-                            user=scanner.nextLine();
+                            user=scanner.next();
                             char[] passwordArray = console.readPassword("Introduzca la contraseña: ");
                             password=new String(passwordArray);
                             valor=stub.registrar(user, password);
@@ -74,7 +72,7 @@ public class Cliente {
                         valor=false;
                         while (!valor) {
                             System.out.print("\nIntroduzca el nombre de usuario: ");
-                            user=scanner.nextLine();
+                            user=scanner.next();
                             char[] passwordArray = console.readPassword("\nIntroduzca la contraseña: ");
                             password=new String(passwordArray);
                             valor=stub.iniciarSesion(user, password);
@@ -105,7 +103,7 @@ public class Cliente {
                                                     System.out.print("\n\t-Donante número "+i+": "+donantes.get(i)+"\n");
                                                 }
                                             }else{
-                                                System.out.print("\n\t-No hay donantes aún o aun no ha donado\n");
+                                                System.out.print("\n\t-No puede ver los donantes hasta que no haya donado\n");
                                             }
                                             break;
                                         case 3:
@@ -116,7 +114,7 @@ public class Cliente {
                                                     System.out.print("\n\t-Donante número "+i+": "+donantesTotales.get(i)+"\n");
                                                 }
                                             }else{
-                                                System.out.print("\n\t-No hay donantes aún o aun no ha donado\n");
+                                                System.out.print("\n\t-No puede ver los donantes hasta que no haya donado\n");
                                             }
                                             break;
                                         case 4:
@@ -128,7 +126,7 @@ public class Cliente {
                                         case 6:
                                             double donado = stub.subtotal(user);
                                             if(donado==-1){
-                                                System.out.println("\n\t-Hasta que no haya donado no puede ver el total donado\n");
+                                                System.out.println("\n\t-Hasta que no haya donado no puede ver el total donado en su servidor\n");
                                             }else{
                                                 System.out.print("\n\t-El total donado en mi servidor es: "+donado+"\n");
                                             }

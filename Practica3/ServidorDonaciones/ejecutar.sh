@@ -10,15 +10,15 @@ javac *.java
 sleep 2
 echo
 echo "Lanzando el Servidor"
-java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Servidor &
+java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Servidor servidor replica 1&
 sleep 2
-echo "Lanzando el Replica"
-java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Replica &
+echo "Lanzando la Replica"
+java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Servidor replica servidor 2&
 sleep 2
 echo
 echo "Lanzando Cliente"
 echo
-java -cp . -Djava.security.policy=server.policy Cliente localhost
+java -cp . -Djava.security.policy=server.policy Cliente localhost 1 David 1234
 # sleep 2
 # echo
 # echo "Lanzando cliente"
