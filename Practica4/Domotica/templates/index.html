@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Control Domótica</title>
+</head>
+<body>
+    <header>
+        <h1>Control Domótica</h1>
+    </header>
+    <body>
+        <main>
+            <section id="container">
+                <div class="container-info">
+                    <h2>Informacion General</h2>
+                    <div class="container-sensor">
+                        <div class="container-sensor-info">
+                            <h3>Sensor Temperatura</h3>
+                            <div class="container-sensor-specific">
+                                <p>Temperatura Actual: </p>
+                                <p id="temperatura-actual"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Temperatura Mínima: </p>
+                                <p id="temperatura-minima"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Temperatura Máxima</p>
+                                <p id="temperatura-maxima"></p>
+                            </div>
+                            <a href="temperatura.html">
+                                <button>Modificar Temperatura</button>
+                            </a>
+                        </div>
+                        <div class="container-sensor-info">
+                            <h3>Sensor Luminosidad</h3>
+                            <div class="container-sensor-specific">
+                                <p>Luminosidad Actual: </p>
+                                <p id="luminosidad-actual"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Luminosidad Mínima: </p>
+                                <p id="luminosidad-minima"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Luminosidad Máxima: </p>
+                                <p id="luminosidad-maxima"></p>
+                            </div>
+                            <a href="luminosidad.html">
+                                <button>Modificar Luminosidad</button>
+                            </a>
+                        </div>
+                        <div class="container-sensor-info">
+                            <h3>Sensor Dioxido Carbono</h3>
+                            <div class="container-sensor-specific">
+                                <p>Dioxido Actual: </p>
+                                <p id="dioxido-actual"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Dioxido Mínimo: </p>
+                                <p id="dioxido-minimo"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Dioxido Máximo: </p>
+                                <p id="dioxido-maximo"></p>
+                            </div>
+                            <a href="dioxido.html">
+                                <button>Modificar Dioxido Carbono</button>
+                            </a>
+                        </div>
+                        <!-- <div class="container-sensor-info">
+                            <h3>Sensor 4</h3>
+                            <div class="container-sensor-specific">
+                                <p>Valor Actual: </p>
+                                <p>VALOR</p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Valor Mínima: </p>
+                                <p>VALOR</p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Valor Máxima: </p>
+                                <p>VALOR</p>
+                            </div>
+                            <a href="#">
+                                <button>Modificar Sensor 4</button>
+                            </a>
+                        </div> -->
+                    </div>
+                </div>
+                <div id="events">
+                    <h2>Eventos</h2>
+                    <div class="event">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+    <footer>
+        <p>©David Serrano Domínguez</p> 
+    </footer>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../js/informacionGeneral.js" defer></script>
+</html>

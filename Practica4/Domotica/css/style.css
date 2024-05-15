@@ -1,0 +1,127 @@
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #f0f0f0;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1,h2,h3{
+    text-transform: uppercase;
+    text-align: center;
+}
+
+h1{
+    font-size: 3rem;
+    margin-top: 2rem;
+}
+
+h2{
+    font-size: 2rem;
+    margin: 2rem;
+}
+
+footer{
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+button{
+    background-color: #0058f1;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    min-width: 15rem;
+}
+
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    margin: 2rem 2rem;
+    padding: 3rem;
+}
+
+.container-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 3rem;
+    margin: 1rem;
+    padding: 4rem;
+    background-color: white;
+}
+
+.container-sensor{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.container-sensor-info{
+    margin: 1rem;
+}
+
+#events{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.event{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 2rem;
+    border:1px black solid;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media(min-width: 1200px) {
+
+    .container-info{
+        width: 90%;
+    }
+    .container-sensor{
+        flex-direction: row;
+    }
+}
+
+.container-sensor-specific{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+

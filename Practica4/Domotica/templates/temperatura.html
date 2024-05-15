@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sensores.css">
+    <title>Temperatura</title>
+</head>
+<body>
+    <header>
+        <h1>Control Temperatura</h1>
+    </header>
+    <body>
+        <main>
+            <section id="container">
+                <div id="container-info">
+                    <h2>Sensor</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-temperatura">
+                            <label id="temperatura-actual"></label>
+                            <label hidden id="temperatura-minima"></label>
+                            <label hidden id="temperatura-maxima"></label>
+                            <input type="submit" value="-" id="disminuir-temperatura">
+                        </div>
+                    </form>
+                </div>
+                <div id="container-info">
+                    <h2>Actuador</h2>
+                    <div class="container-sensor-specific">
+                        <p>Estado actual: </p>
+                        <p>ABIERTA</p>
+                    </div>
+                </div>
+            </section>
+            <div id="botones">
+                <a href="/">
+                    <button>Pagina principal</button>
+                </a>
+            </div>
+        </main>
+    </body>
+    <footer>
+
+    </footer>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../js/temperatura.js" defer></script>
+</html>
