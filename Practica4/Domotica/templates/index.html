@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Control Domótica</title>
 </head>
 <body>
@@ -30,6 +31,10 @@
                                 <p>Temperatura Máxima</p>
                                 <p id="temperatura-maxima"></p>
                             </div>
+                            <div class="container-sensor-specific">
+                                <p>Aire acondicionado: </p>
+                                <p id="estado-aire"></p>
+                            </div>
                             <a href="temperatura.html">
                                 <button>Modificar Temperatura</button>
                             </a>
@@ -47,6 +52,10 @@
                             <div class="container-sensor-specific">
                                 <p>Luminosidad Máxima: </p>
                                 <p id="luminosidad-maxima"></p>
+                            </div>
+                            <div class="container-sensor-specific">
+                                <p>Persiana: </p>
+                                <p id="estado-persiana"></p>
                             </div>
                             <a href="luminosidad.html">
                                 <button>Modificar Luminosidad</button>
@@ -66,32 +75,19 @@
                                 <p>Dioxido Máximo: </p>
                                 <p id="dioxido-maximo"></p>
                             </div>
+                            <div class="container-sensor-specific">
+                                <p>Filtro dioxido carbono: </p>
+                                <p id="estado-filtro"></p>
+                            </div>
                             <a href="dioxido.html">
                                 <button>Modificar Dioxido Carbono</button>
                             </a>
                         </div>
-                        <!-- <div class="container-sensor-info">
-                            <h3>Sensor 4</h3>
-                            <div class="container-sensor-specific">
-                                <p>Valor Actual: </p>
-                                <p>VALOR</p>
-                            </div>
-                            <div class="container-sensor-specific">
-                                <p>Valor Mínima: </p>
-                                <p>VALOR</p>
-                            </div>
-                            <div class="container-sensor-specific">
-                                <p>Valor Máxima: </p>
-                                <p>VALOR</p>
-                            </div>
-                            <a href="#">
-                                <button>Modificar Sensor 4</button>
-                            </a>
-                        </div> -->
                     </div>
                 </div>
+                <div id="alertas"></div>
+                <h2>Eventos</h2>
                 <div id="events">
-                    <h2>Eventos</h2>
                     <div class="event">
                     </div>
                 </div>
@@ -103,5 +99,6 @@
     </footer>
 </body>
 <script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="../js/informacionGeneral.js" defer></script>
+<script type="module" src="../js/informacionGeneral.js" defer></script>
+<script type="module" src="../js/funciones.js" defer></script>
 </html>

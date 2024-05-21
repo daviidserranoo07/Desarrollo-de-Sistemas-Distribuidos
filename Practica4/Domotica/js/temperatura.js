@@ -1,62 +1,85 @@
-const temperaturaActual = document.getElementById('temperatura-actual');
-const temperaturaMaxima = document.getElementById('temperatura-maxima');
-const temperaturaMinima = document.getElementById('temperatura-minima');
-
-function formatearFecha(fecha){
-    let dia = fecha.getDate().toString().padStart(2, '0');
-    let mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
-    let año = fecha.getFullYear();
-
-    let horas = fecha.getHours().toString().padStart(2, '0');
-    let minutos = fecha.getMinutes().toString().padStart(2, '0');
-    let segundos = fecha.getSeconds().toString().padStart(2, '0');
-
-    let fechaFormateada = `${dia}/${mes}/${año} ${horas}:${minutos}:${segundos}`;
-    return fechaFormateada;
-}
-
-function actualizarTemperatura(data){
-    temperaturaActual.textContent = data.actual + 'º';
-    temperaturaMaxima.textContent = data.maxima + 'º';
-    temperaturaMinima.textContent = data.minima + 'º';
-}
+import { formatearFecha, temperaturaActual, temperaturaMaxima, temperaturaMinima, aireAcondicionado, actualizarValores, modificarEstadoAire } from './funciones.js';
 
 const variacion = 1;
 
-function aumentarTemperatura(){
-    event.preventDefault();
+function modificarTemperaturaActual(valor){
     let temperaturaA = parseInt(temperaturaActual.textContent);
-    let temperaturaNueva = temperaturaA + variacion;
     let fecha = new Date();
     let fechaFormateada = formatearFecha(fecha);
-    socket.emit('insertarTemperatura', {actual: temperaturaNueva, maxima: parseInt(temperaturaMaxima.textContent), minima: parseInt(temperaturaMinima.textContent), fecha: fechaFormateada});
-    socket.emit('insertarEventoReciente', {evento: 'Se ha incrementado la temperatura en '+variacion+'º',fecha: fechaFormateada});
-    actualizarTemperatura({actual: temperaturaNueva, maxima: parseInt(temperaturaMaxima.textContent), minima: parseInt(temperaturaMinima.textContent)});
+    if(valor){
+        let temperaturaNueva = temperaturaA + variacion;
+        socket.emit('insertarTemperatura', {actual: temperaturaNueva, maxima: parseInt(temperaturaMaxima.textContent), minima: parseInt(temperaturaMinima.textContent),fecha: fechaFormateada, estadoAire: aireAcondicionado.textContent == 'Encendido' ? true : false});
+    }else{
+        let temperaturaNueva = temperaturaA - variacion;
+        socket.emit('insertarTemperatura', {actual: temperaturaNueva, maxima: parseInt(temperaturaMaxima.textContent), minima: parseInt(temperaturaMinima.textContent),fecha: fechaFormateada, estadoAire: aireAcondicionado.textContent == 'Encendido' ? true : false});
+    }
 };
 
-function disminuirTemperatura(){
-    event.preventDefault();
-    let temperaturaA = parseInt(temperaturaActual.textContent);
-    let temperaturaNueva = temperaturaA - variacion;
+function modificarTemperaturaMaxima(valor){
+    let temperaturaM = parseInt(temperaturaMaxima.textContent);
     let fecha = new Date();
     let fechaFormateada = formatearFecha(fecha);
-    socket.emit('insertarTemperatura', {actual: temperaturaNueva, maxima: parseInt(temperaturaMaxima.textContent), minima: parseInt(temperaturaMinima.textContent), fecha: fechaFormateada});
-    socket.emit('insertarEventoReciente', {evento: 'Se ha decrementado la temperatura en '+variacion+'º',fecha: fechaFormateada});
-    actualizarTemperatura({actual: temperaturaNueva, maxima: parseInt(temperaturaMaxima.textContent), minima: parseInt(temperaturaMinima.textContent)});
+    if(valor){
+        let temperaturaNueva = temperaturaM + variacion;
+        socket.emit('insertarTemperatura', {actual: parseInt(temperaturaActual.textContent), maxima: temperaturaNueva, minima: parseInt(temperaturaMinima.textContent),fecha: fechaFormateada, estadoAire: aireAcondicionado.textContent == 'Encendido' ? true : false});
+    }else{
+        let temperaturaNueva = temperaturaM - variacion;
+        socket.emit('insertarTemperatura', {actual: parseInt(temperaturaActual.textContent), maxima: temperaturaNueva, minima: parseInt(temperaturaMinima.textContent),fecha: fechaFormateada, estadoAire: aireAcondicionado.textContent == 'Encendido' ? true : false});
+    }
 };
 
-//Manejamos los eventos de los botones al dar click para subir y bajar temperatura
-document.getElementById('aumentar-temperatura').addEventListener('click', aumentarTemperatura);
-document.getElementById('disminuir-temperatura').addEventListener('click', disminuirTemperatura);
+function modificarTemperaturaMinima(valor){
+    let temperaturaM = parseInt(temperaturaMinima.textContent);
+    let fecha = new Date();
+    let fechaFormateada = formatearFecha(fecha);
+    if(valor){
+        let temperaturaNueva = temperaturaM + variacion;
+        socket.emit('insertarTemperatura', {actual: parseInt(temperaturaActual.textContent), maxima: parseInt(temperaturaMaxima.textContent), minima: temperaturaNueva,fecha: fechaFormateada, estadoAire: aireAcondicionado.textContent == 'Encendido' ? true : false});
+    }else{
+        let temperaturaNueva = temperaturaM - variacion;
+        socket.emit('insertarTemperatura', {actual: parseInt(temperaturaActual.textContent), maxima: parseInt(temperaturaMaxima.textContent), minima: temperaturaNueva,fecha: fechaFormateada, estadoAire: aireAcondicionado.textContent == 'Encendido' ? true : false});
+    }
+};
+
+//Manejamos los eventos de los botones al dar click para subir y bajar temperatura actual, temperatura máxima, temperatura mínima
+document.getElementById('aumentar-temperatura').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarTemperaturaActual(true);
+});
+document.getElementById('disminuir-temperatura').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarTemperaturaActual(false);
+});
+
+document.getElementById('aumentar-temperatura-maxima').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarTemperaturaMaxima(true);
+});
+document.getElementById('disminuir-temperatura-maxima').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarTemperaturaMaxima(false);
+});
+
+document.getElementById('aumentar-temperatura-minima').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarTemperaturaMinima(true);
+});
+
+document.getElementById('disminuir-temperatura-minima').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarTemperaturaMinima(false);
+});
 
 const  serviceURL = 'http://localhost:8080';
 const  socket = io.connect(serviceURL);
 
 socket.on('obtenerTemperatura', (data) => {
-    console.log('Temperatura Actual: ', data.actual);
-    console.log('Temperatura Máxima: ', data.maxima);
-    console.log('Temperatura Minima: ', data.minima);
-    actualizarTemperatura(data);
+    actualizarValores(temperaturaActual,temperaturaMaxima, temperaturaMinima, data, 'º');
+    console.log(data);
+});
+
+socket.on('obtenerActuadorTemperatura', (data) => {
+    modificarEstadoAire(data);
 });
 
 socket.on('disconnect', () => {

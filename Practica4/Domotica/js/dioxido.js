@@ -1,63 +1,88 @@
-const dioxidoActual = document.getElementById('dioxido-actual');
-const dioxidoMaximo = document.getElementById('dioxido-maximo');
-const dioxidoMinimo = document.getElementById('dioxido-minimo');
-
-function formatearFecha(fecha){
-    let dia = fecha.getDate().toString().padStart(2, '0');
-    let mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
-    let año = fecha.getFullYear();
-
-    let horas = fecha.getHours().toString().padStart(2, '0');
-    let minutos = fecha.getMinutes().toString().padStart(2, '0');
-    let segundos = fecha.getSeconds().toString().padStart(2, '0');
-
-    let fechaFormateada = `${dia}/${mes}/${año} ${horas}:${minutos}:${segundos}`;
-    return fechaFormateada;
-}
-
-function actualizarDioxido(data){
-    dioxidoActual.textContent = data.actual + 'ppm';
-    dioxidoMinimo.textContent = data.minimo + 'ppm';
-    dioxidoMaximo.textContent = data.maximo + 'ppm';
-}
+import { formatearFecha, dioxidoActual, dioxidoMaximo, dioxidoMinimo, actualizarValores, modificarEstadoFiltro, filtroDioxido } from './funciones.js';
 
 const variacion = 50;
 
-function aumentarDioxido(){
-    event.preventDefault();
+function modificarDioxidoActual(valor){
     let dioxidoA = parseInt(dioxidoActual.textContent);
-    let dioxidoNuevo = dioxidoA + variacion;
     let fecha = new Date();
     let fechaFormateada = formatearFecha(fecha);
-    socket.emit('insertarDioxido', {actual: dioxidoNuevo, maximo: parseInt(dioxidoMaximo.textContent), minimo: parseInt(dioxidoMinimo.textContent), fecha: fechaFormateada});
-    socket.emit('insertarEventoReciente', {evento: 'Se ha incrementado el dioxido de carbono en '+variacion+'ppm',fecha: fechaFormateada});
-    actualizarDioxido({actual: dioxidoNuevo, maximo: parseInt(dioxidoMaximo.textContent), minimo: parseInt(dioxidoMinimo.textContent)});
+    if(valor){
+        let dioxidoNuevo = dioxidoA + variacion;
+        socket.emit('insertarDioxido', {actual: dioxidoNuevo, maxima: parseInt(dioxidoMaximo.textContent), minima: parseInt(dioxidoMinimo.textContent),fecha: fechaFormateada, estadoFiltroDioxido: filtroDioxido.textContent == 'Encendido' ? true : false});
+    }else{
+        let dioxidoNuevo = dioxidoA - variacion;
+        socket.emit('insertarDioxido', {actual: dioxidoNuevo, maxima: parseInt(dioxidoMaximo.textContent), minima: parseInt(dioxidoMinimo.textContent),fecha: fechaFormateada, estadoFiltroDioxido: filtroDioxido.textContent == 'Encendido' ? true : false});
+    }
 };
 
-function disminuirDioxido(){
-    event.preventDefault();
-    let dioxidoA = parseInt(dioxidoActual.textContent);
-    let dioxidoNuevo = dioxidoA - variacion;
+function modificarDioxidoMaximo(valor){
+    let dioxidoM = parseInt(dioxidoMaximo.textContent);
     let fecha = new Date();
     let fechaFormateada = formatearFecha(fecha);
-    socket.emit('insertarDioxido', {actual: dioxidoNuevo, maximo: parseInt(dioxidoMaximo.textContent), minimo: parseInt(dioxidoMinimo.textContent), fecha: fechaFormateada});
-    socket.emit('insertarEventoReciente', {evento: 'Se ha decrementado el dioxido de carbono en '+variacion+'ppm',fecha: fechaFormateada});
-    actualizarDioxido({actual: dioxidoNuevo, maximo: parseInt(dioxidoMaximo.textContent), minimo: parseInt(dioxidoMinimo.textContent)});
+    if(valor){
+        let dioxidoNuevo = dioxidoM + variacion;
+        socket.emit('insertarDioxido', {actual: parseInt(dioxidoActual.textContent), maxima: dioxidoNuevo, minima: parseInt(dioxidoMinimo.textContent),fecha: fechaFormateada, estadoFiltroDioxido: filtroDioxido.textContent == 'Encendido' ? true : false});
+    }else{
+        let dioxidoNuevo = dioxidoM - variacion;
+        socket.emit('insertarDioxido', {actual: parseInt(dioxidoActual.textContent), maxima: dioxidoNuevo, minima: parseInt(dioxidoMinimo.textContent),fecha: fechaFormateada, estadoFiltroDioxido: filtroDioxido.textContent == 'Encendido' ? true : false});
+    }
 };
 
-//Manejamos los eventos de los botones al dar click para subir y bajar temperatura
-document.getElementById('aumentar-dioxido').addEventListener('click', aumentarDioxido);
-document.getElementById('disminuir-dioxido').addEventListener('click', disminuirDioxido);
+function modificarDioxidoMinimo(valor){
+    let dioxidoM = parseInt(dioxidoMinimo.textContent);
+    let fecha = new Date();
+    let fechaFormateada = formatearFecha(fecha);
+    if(valor){
+        let dioxidoNuevo = dioxidoM + variacion;
+        socket.emit('insertarDioxido', {actual: parseInt(dioxidoActual.textContent), maxima: parseInt(dioxidoMaximo.textContent), minima: dioxidoNuevo,fecha: fechaFormateada, estadoFiltroDioxido: filtroDioxido.textContent == 'Encendido' ? true : false});
+    }else{
+        let dioxidoNuevo = dioxidoM - variacion;
+        socket.emit('insertarDioxido', {actual: parseInt(dioxidoActual.textContent), maxima: parseInt(dioxidoMaximo.textContent), minima: dioxidoNuevo,fecha: fechaFormateada, estadoFiltroDioxido: filtroDioxido.textContent == 'Encendido' ? true : false});
+    }
+};
+
+//Manejamos los eventos de los botones al dar click para subir y bajar dioxido actual, dioxido máximo, dioxido mínimo
+document.getElementById('aumentar-dioxido').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarDioxidoActual(true);
+});
+document.getElementById('disminuir-dioxido').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarDioxidoActual(false);
+});
+
+document.getElementById('aumentar-dioxido-maximo').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarDioxidoMaximo(true);
+});
+document.getElementById('disminuir-dioxido-maximo').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarDioxidoMaximo(false);
+});
+
+document.getElementById('aumentar-dioxido-minimo').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarDioxidoMinimo(true);
+});
+
+document.getElementById('disminuir-dioxido-minimo').addEventListener('click', function(event){
+    event.preventDefault();
+    modificarDioxidoMinimo(false);
+});
 
 const  serviceURL = 'http://localhost:8080';
 const  socket = io.connect(serviceURL);
 
 socket.on('obtenerDioxido', (data) => {
-    console.log('Dioxido Actual: ', data.actual);
-    console.log('Dioxido Máximo: ', data.maximo);
-    console.log('Dioxido Minimo: ', data.minimo);
-    actualizarDioxido(data);
+    actualizarValores(dioxidoActual, dioxidoMaximo, dioxidoMinimo, data, 'ppm');
+    console.log(data);
 });
+
+socket.on('obtenerActuadorFiltroDioxido', (data) => {
+    modificarEstadoFiltro(data);
+    console.log('Estado Filtro Dioxido Carbono: ',data.estadoFiltroDioxido);
+});
+
 
 socket.on('disconnect', () => {
     console.log('Desconectado del servidor');

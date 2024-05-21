@@ -14,22 +14,41 @@
         <main>
             <section id="container">
                 <div id="container-info">
+                    <h2>Modificar Máxima</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-temperatura-maxima">
+                            <label class="letra" id="temperatura-maxima"></label>
+                            <input type="submit" value="-" id="disminuir-temperatura-maxima">
+                        </div>
+                    </form>
+                </div>
+                <div id="container-info">
                     <h2>Sensor</h2>
                     <form method="post" class="form">
                         <div id="form-input">
                             <input type="submit" value="+" id="aumentar-temperatura">
-                            <label id="temperatura-actual"></label>
-                            <label hidden id="temperatura-minima"></label>
-                            <label hidden id="temperatura-maxima"></label>
+                            <label class="letra" id="temperatura-actual"></label>
                             <input type="submit" value="-" id="disminuir-temperatura">
                         </div>
                     </form>
                 </div>
                 <div id="container-info">
-                    <h2>Actuador</h2>
+                    <h2>Modificar Minima</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-temperatura-minima">
+                            <label class="letra" id="temperatura-minima"></label>
+                            <input type="submit" value="-" id="disminuir-temperatura-minima">
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <section id="container"> 
+                <div id="container-info">
+                    <h2>Aire Acondicionado</h2>
                     <div class="container-sensor-specific">
-                        <p>Estado actual: </p>
-                        <p>ABIERTA</p>
+                        <p class="apagado" class="encendido" id="estado-aire"></p>
                     </div>
                 </div>
             </section>
@@ -45,5 +64,6 @@
     </footer>
 </body>
 <script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="../js/temperatura.js" defer></script>
+<script type="module" src="../js/temperatura.js" defer></script>
+<script type="module" src="../js/funciones.js" defer></script>
 </html>

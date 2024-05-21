@@ -13,22 +13,41 @@
         <main>
             <section id="container">
                 <div id="container-info">
-                    <h2>Sensor</h2>
+                    <h2>Modificar Máxima</h2>
                     <form method="post" class="form">
                         <div id="form-input">
-                            <label hidden id="luminosidad-maxima"></label>
-                            <input type="submit" value="+" id="aumentar-luminosidad">
-                            <label id="luminosidad-actual"></label>
-                            <input type="submit" value="-" id="disminuir-luminosidad">
-                            <label hidden id="luminosidad-minima"></label>
+                            <input type="submit" value="+" id="aumentar-luminosidad-maxima">
+                            <label class="letra" id="luminosidad-maxima"></label>
+                            <input type="submit" value="-" id="disminuir-luminosidad-maxima">
                         </div>
                     </form>
                 </div>
                 <div id="container-info">
-                    <h2>Actuador</h2>
+                    <h2>Sensor</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-luminosidad">
+                            <label class="letra" id="luminosidad-actual"></label>
+                            <input type="submit" value="-" id="disminuir-luminosidad">
+                        </div>
+                    </form>
+                </div>
+                <div id="container-info">
+                    <h2>Modificar Minima</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-luminosidad-minima">
+                            <label class="letra" id="luminosidad-minima"></label>
+                            <input type="submit" value="-" id="disminuir-luminosidad-minima">
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <section id="container"> 
+                <div id="container-info">
+                    <h2>Persiana</h2>
                     <div class="container-sensor-specific">
-                        <p>Estado actuador: </p>
-                        <p>estado</p>
+                        <p class="apagado" class="encendido" id="estado-persiana"></p>
                     </div>
                 </div>
             </section>
@@ -42,8 +61,8 @@
     <footer>
 
     </footer>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="../js/luminosidad.js" defer></script>
 </body>
-</html>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="../js/luminosidad.js" defer></script>
+<script type="module" src="../js/funciones.js" defer></script>
 </html>

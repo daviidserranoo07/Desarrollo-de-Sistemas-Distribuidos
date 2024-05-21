@@ -50,12 +50,11 @@ a{
     width: 100%;
 }
 
-@media (max-width: 768px){
+@media (max-width: 1200px){
     #container{
         flex-direction: column;
         width: 80%;
     }
-    
 }
 
 #container-info{
@@ -115,4 +114,22 @@ a{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.encendido,.apagado{
+    
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+.encendido{
+    color: green;
+}
+
+.apagado{
+    color: red;
+}
+
+.letra{
+    font-size: 3rem;
 }

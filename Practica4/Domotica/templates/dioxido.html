@@ -13,22 +13,41 @@
         <main>
             <section id="container">
                 <div id="container-info">
-                    <h2>Sensor</h2>
+                    <h2>Modificar Máximo</h2>
                     <form method="post" class="form">
                         <div id="form-input">
-                            <label hidden id="dioxido-maximo"></label>
-                            <input type="submit" value="+" id="aumentar-dioxido">
-                            <label id="dioxido-actual"></label>
-                            <input type="submit" value="-" id="disminuir-dioxido">
-                            <label hidden id="dioxido-minimo"></label>
+                            <input type="submit" value="+" id="aumentar-dioxido-maximo">
+                            <label class="letra" id="dioxido-maximo"></label>
+                            <input type="submit" value="-" id="disminuir-dioxido-maximo">
                         </div>
                     </form>
                 </div>
                 <div id="container-info">
-                    <h2>Actuador</h2>
+                    <h2>Sensor</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-dioxido">
+                            <label class="letra" id="dioxido-actual"></label>
+                            <input type="submit" value="-" id="disminuir-dioxido">
+                        </div>
+                    </form>
+                </div>
+                <div id="container-info">
+                    <h2>Modificar Minimo</h2>
+                    <form method="post" class="form">
+                        <div id="form-input">
+                            <input type="submit" value="+" id="aumentar-dioxido-minimo">
+                            <label class="letra" id="dioxido-minimo"></label>
+                            <input type="submit" value="-" id="disminuir-dioxido-minimo">
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <section id="container"> 
+                <div id="container-info">
+                    <h2>Aire Acondicionado</h2>
                     <div class="container-sensor-specific">
-                        <p>Estado actuador: </p>
-                        <p>estado</p>
+                        <p class="apagado" class="encendido" id="estado-filtro"></p>
                     </div>
                 </div>
             </section>
@@ -42,8 +61,9 @@
     <footer>
 
     </footer>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="../js/dioxido.js" defer></script>
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="../js/dioxido.js" defer></script>
+<script type="module" src="../js/funciones.js" defer></script>
 </html>
 </html>
