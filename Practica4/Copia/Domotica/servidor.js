@@ -8,23 +8,19 @@ import { Telegraf } from 'telegraf'
 const bot = new Telegraf('7103064786:AAFf7K9J9tZsyTJsEPESKeI6-VevRZDKnBA');
 
 // Manejadores de comandos
-let userId = null;
+let userId;
 
 bot.start((ctx) => {
     console.log('/start command received');
+    userId = ctx.message.from.id
     ctx.reply('Bienvenido al bot de domótica use el comando /help para ver los comandos disponibles');
 });
 
 bot.help((ctx) => {
     console.log('/help command received');
-    ctx.reply('Comandos disponibles:\n\n/start - Iniciar el bot\n/help - Mostrar ayuda\n/temperatura - Obtener la temperatura actual\n/luminosidad - Obtener la luminosidad actual\n/dioxido - Obtener el nivel de dióxido de carbono actual\n/avisos - Obtener los avisos de aire acondicionado, persianas y filtro de dioxido de carbono');
-});
-
-bot.command('avisos', (ctx) => {
-    console.log('/avisos command received');
     userId = ctx.message.from.id;
-    ctx.reply('Suscripción a avisos activada, cuando se modifique un actuador se le enviará un mensaje');
     console.log('User ID: ', userId);
+    ctx.reply('Comandos disponibles:\n\n/start - Iniciar el bot\n/help - Mostrar ayuda\n/temperatura - Obtener la temperatura actual\n/luminosidad - Obtener la luminosidad actual\n/dioxido - Obtener el nivel de dióxido de carbono actual');
 });
 
 // Lanzar el bot
@@ -164,6 +160,8 @@ MongoClient.connect("mongodb://localhost:27017").then((db) => {
                     console.log('/temperatura command received');
                     let aire = 'APAGADO';
                     if(data[0].estadoAire)  aire = 'ENCENDIDO';
+                    userId = ctx.message.from.id;
+                    console.log('User ID: ', userId);
                     ctx.reply(
                         'La temperatura máxima es de ' + data[0].maxima + '°C' +
                         '\nLa temperatura actual es de ' + data[0].actual + '°C' +
@@ -182,6 +180,8 @@ MongoClient.connect("mongodb://localhost:27017").then((db) => {
                     console.log('/luminosidad command received');
                     let persiana = 'CERRADA';
                     if(data[0].estadoPersiana)  persiana = 'SUBIDA';
+                    userId = ctx.message.from.id;
+                    console.log('User ID: ', userId);
                     ctx.reply(
                         'La luminosidad máxima es de ' + data[0].maxima + '°C' +
                         '\nLa luminosidad actual es de ' + data[0].actual + '°C' +
@@ -200,6 +200,8 @@ MongoClient.connect("mongodb://localhost:27017").then((db) => {
                     console.log('/dioxido command received');
                     let filtro = 'APAGADO';
                     if(data[0].estadoFiltroDioxido)  filtro = 'ENCENDIDO';
+                    userId = ctx.message.from.id;
+                    console.log('User ID: ', userId);
                     ctx.reply(
                         'El dioxido máximo es de ' + data[0].maxima + '°C' +
                         '\nEl dioxido actual es de ' + data[0].actual + '°C' +
@@ -319,31 +321,23 @@ MongoClient.connect("mongodb://localhost:27017").then((db) => {
             io.emit('obtenerActuadorTemperatura', data);
             if(data.estadoAire){
                 console.log('Estado aire: ', data.estadoAire);
-                if(userId!=null){
-                    console.log('Enviando mensaje a: ', userId);
-                    bot.telegram.sendMessage(userId, '¡¡¡¡El aire acondicionado ha sido encendido!!!!');
-                }
+                console.log('Enviando mensaje a: ', userId);
+                bot.telegram.sendMessage(userId, '¡¡¡¡El aire acondicionado ha sido encendido!!!!');
             }else{
                 console.log('Estado aire: ', data.estadoAire);
-                if(userId!=null){
-                    console.log('Enviando mensaje a: ', userId);
-                    bot.telegram.sendMessage(userId, '¡¡¡¡El aire acondicionado ha sido apagado!!!!');
-                }
+                console.log('Enviando mensaje a: ', userId);
+                bot.telegram.sendMessage(userId, '¡¡¡¡El aire acondicionado ha sido apagado!!!!');
             }
         });
 
         client.on('actuadorLuminosidadModificado', (data) => {
             io.emit('obtenerActuadorLuminosidad', data);
             if(data.estadoPersiana){
-                if(userId!=null){     
-                    console.log('Enviando mensaje a: ', userId);
-                    bot.telegram.sendMessage(userId, '¡¡¡¡La persiana se ha subido!!!!');
-                }
+                console.log('Enviando mensaje a: ', userId);
+                bot.telegram.sendMessage(userId, '¡¡¡¡La persiana se ha subido!!!!');
             }else{
-                if(userId!=null){
-                    console.log('Enviando mensaje a: ', userId);
-                    bot.telegram.sendMessage(userId, '¡¡¡¡La persiana se ha bajado!!!!');
-                }
+                console.log('Enviando mensaje a: ', userId);
+                bot.telegram.sendMessage(userId, '¡¡¡¡La persiana se ha bajado!!!!');
             }
         });
 
@@ -351,15 +345,11 @@ MongoClient.connect("mongodb://localhost:27017").then((db) => {
             io.emit('obtenerActuadorFiltroDioxido', data);
             console.log('Estado filtro: ', data.estadoFiltroDioxido);
             if(data.estadoFiltroDioxido){
-                if(userId!=null){
-                    console.log('Enviando mensaje a: ', userId);
-                    bot.telegram.sendMessage(userId, '¡¡¡¡El filtro de dioxido se ha encendido!!!!');
-                }
+                console.log('Enviando mensaje a: ', userId);
+                bot.telegram.sendMessage(userId, '¡¡¡¡El filtro de dioxido se ha encendido!!!!');
             }else{
-                if(userId!=null){
-                    console.log('Enviando mensaje a: ', userId);
-                    bot.telegram.sendMessage(userId, '¡¡¡¡El filtro de dioxido se ha apagado!!!!');
-                }
+                console.log('Enviando mensaje a: ', userId);
+                bot.telegram.sendMessage(userId, '¡¡¡¡El filtro de dioxido se ha apagado!!!!');
             }
         });
 
