@@ -24,3 +24,5 @@ Manejo de eventos en tiempo real utilizando Socket.IO.
 
 ### 3.3 Base de Datos MongoDB
 Uso de MongoDB como base de datos para el almacenamiento de datos del sistema.
+
+### 3.2 BOT de telegram mediante Telegraf
