@@ -58,4 +58,4 @@ dkms.conf
 /Practica3/Ejemplos/contador/build/
 /Practica3/Ejemplos/EJEMPLO3/cliente/dist/
 /Practica3/Ejemplos/EJEMPLO3/servidor/dist/
-node_modules/
+/Practica4/Domotica/node_modules/
