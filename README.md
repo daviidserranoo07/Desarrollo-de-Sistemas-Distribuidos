@@ -16,17 +16,7 @@ Se ha desarrollado un sistema de donaciones que utiliza dos réplicas, implement
 
 ## 3. Desarrollo de simulación de Sistema Domótico usando Node.js
 
-### 3.1 Servidor Node.js
-Implementación del servidor utilizando Node.js.
-
-### 3.2 Eventos Socket.IO
-Manejo de eventos en tiempo real utilizando Socket.IO.
-
-### 3.3 Base de Datos MongoDB
-Uso de MongoDB como base de datos para el almacenamiento de datos del sistema.
-
-### 3.2 BOT de telegram mediante Telegraf
-Se ha hecho uso de del paquete Telegraf para configurar el BOT para recibir tanto mensajes de actualización de los actuadores, como poder pedirle información del estado actual de cualquiera de los sensores, mostrando dicha información el valor actual, máximo y mínimo, además del estado de su actuador en el momento que se solicita.
+El desarrollo de esta práctica ha consistido en implementar un sistema domótico haciendo uso de NodeJS y distintos paquetes que tenemos npm. Se ha de suponer un sistema domótico básico compuesto de tres sensores (luminosidad, temperatura y dioxido de carbono), tres actuadores (motor persiana, sistema de Aire/Acondicionado y filtro de dioxido de carbono), un servidor que sirve páginas para mostrar el estado y actuar sobre los elementos de la vivienda. Además dicho servidor incluye un agente capaz de notificar alarmas y tomar decisiones básicas. Como parte extra también se le ha añadido un  BOT de Telegram para recibir tanto mensajes de actualización de los actuadores, como poder pedirle información del estado actual de cualquiera de los sensores, mostrando dicha información el valor actual, máximo y mínimo, además del estado de su actuador en el momento que se solicita.
 
 ### Instalación y uso de servidor NodeJS
 
@@ -45,4 +35,6 @@ Para ejecutar el proyecto, sigue estos pasos:
     ```sh
     node server.js
     ```
+## Contacto
+Para más información, puedes contactar a David Serrano Domínguez en davidserrano07@correo.ugr.es
 
