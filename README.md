@@ -28,7 +28,7 @@ Uso de MongoDB como base de datos para el almacenamiento de datos del sistema.
 ### 3.2 BOT de telegram mediante Telegraf
 
 
-## Instalación y uso
+### Instalación y uso de servidor NodeJS
 
 Para ejecutar el proyecto, sigue estos pasos:
 
