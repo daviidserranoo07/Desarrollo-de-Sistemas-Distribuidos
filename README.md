@@ -26,3 +26,23 @@ Manejo de eventos en tiempo real utilizando Socket.IO.
 Uso de MongoDB como base de datos para el almacenamiento de datos del sistema.
 
 ### 3.2 BOT de telegram mediante Telegraf
+
+
+## Instalación y uso
+
+Para ejecutar el proyecto, sigue estos pasos:
+
+1. Clona el repositorio:
+    ```sh
+    git@github.com:daviidserranoo07/Desarrollo-de-Sistemas-Distribuidos.git
+    ```
+2. Instala las dependencias:
+    ```sh
+    cd tu-repositorio
+    npm install
+    ```
+3. Inicia el servidor:
+    ```sh
+    node server.js
+    ```
+
