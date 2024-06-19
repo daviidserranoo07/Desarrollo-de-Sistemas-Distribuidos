@@ -26,7 +26,7 @@ Manejo de eventos en tiempo real utilizando Socket.IO.
 Uso de MongoDB como base de datos para el almacenamiento de datos del sistema.
 
 ### 3.2 BOT de telegram mediante Telegraf
-
+Se ha hecho uso de del paquete Telegraf para configurar el BOT para recibir tanto mensajes de actualización de los actuadores, como poder pedirle información del estado actual de cualquiera de los sensores, mostrando dicha información el valor actual, máximo y mínimo, además del estado de su actuador en el momento que se solicita.
 
 ### Instalación y uso de servidor NodeJS
 
